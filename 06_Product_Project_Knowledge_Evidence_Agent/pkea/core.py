@@ -7,6 +7,8 @@ import re
 from pathlib import Path
 from typing import Any
 
+from .review import latest_reviews
+
 SUPPORTED = {".md", ".markdown", ".txt", ".json", ".csv"}
 
 CLAIM_PATTERNS = {
@@ -213,6 +215,7 @@ def write_report(workspace: str | Path, output: str | Path | None = None) -> Pat
     workspace = Path(workspace)
     output = Path(output or workspace / "report.md")
     data = json.loads((workspace / "analysis.json").read_text(encoding="utf-8"))
+    reviews = latest_reviews(workspace)
     lines = [
         "# Project Knowledge & Evidence Agent — Audit Package",
         "",
@@ -227,11 +230,15 @@ def write_report(workspace: str | Path, output: str | Path | None = None) -> Pat
     ]
     for claim in data["claims"]:
         e = claim["evidence"]
+        review = reviews.get(claim["claim_id"])
+        review_text = review["decision"] if review else "NOT_REVIEWED"
+        reviewer_text = f" by `{review['reviewer']}`" if review else ""
         lines += [
             f"### {claim['claim_id']} — {claim['type']}",
             claim["text"],
             f"- Source: `{e['path']}` lines {e['line_start']}-{e['line_end']}",
-            f"- Status: `{claim['validation_status']}`",
+            f"- Candidate status: `{claim['validation_status']}`",
+            f"- Human review: `{review_text}`{reviewer_text}",
             "",
         ]
     lines += ["## Conflicts"]
@@ -245,7 +252,8 @@ def write_report(workspace: str | Path, output: str | Path | None = None) -> Pat
         "- No candidate is canonical by default.",
         "- Source locations are retained for traceability.",
         "- LLM output is advisory; evidence validation is deterministic.",
-        "- Conflicts remain unresolved until human review.",
+        "- Human decisions are append-only in `validation_ledger.jsonl`.",
+        "- Conflicts remain unresolved until human review and explicit downstream resolution.",
     ]
     output.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return output
