@@ -71,6 +71,25 @@ def _subject(text: str) -> str:
     return re.sub(r"\s+", " ", value).strip()
 
 
+def _candidate(doc: dict[str, Any], text: str, line_start: int, line_end: int, quote: str, kind: str) -> dict[str, Any]:
+    return {
+        "claim_id": "CLM-" + sha256_text(doc["document_id"] + f":{line_start}:{line_end}:{text}")[:12],
+        "document_id": doc["document_id"],
+        "type": kind,
+        "text": text.strip(),
+        "subject": _subject(f"{kind}: {text}"),
+        "evidence": {
+            "document_id": doc["document_id"],
+            "path": doc["path"],
+            "line_start": line_start,
+            "line_end": line_end,
+            "quote": quote.strip(),
+        },
+        "polarity": "negative" if NEGATION.search(text) else "positive",
+        "validation_status": "CANDIDATE",
+    }
+
+
 def _extract_claims(doc: dict[str, Any], source_root: Path) -> list[dict[str, Any]]:
     path = source_root / doc["path"]
     lines = _read(path).splitlines()
@@ -80,34 +99,64 @@ def _extract_claims(doc: dict[str, Any], source_root: Path) -> list[dict[str, An
             match = pattern.match(line)
             if not match:
                 continue
-            text = match.group(1).strip()
-            claims.append({
-                "claim_id": "CLM-" + sha256_text(doc["document_id"] + f":{number}:{text}")[:12],
-                "document_id": doc["document_id"],
-                "type": kind,
-                "text": text,
-                "subject": _subject(line),
-                "evidence": {
-                    "document_id": doc["document_id"],
-                    "path": doc["path"],
-                    "line_start": number,
-                    "line_end": number,
-                    "quote": line.strip(),
-                },
-                "polarity": "negative" if NEGATION.search(text) else "positive",
-                "validation_status": "CANDIDATE",
-            })
+            claims.append(_candidate(doc, match.group(1).strip(), number, number, line, kind))
             break
     return claims
 
 
-def analyze_workspace(workspace: str | Path, source_root: str | Path | None = None) -> dict[str, Any]:
+def _validate_llm_claim(doc: dict[str, Any], lines: list[str], raw: dict[str, Any]) -> dict[str, Any] | None:
+    allowed = set(CLAIM_PATTERNS)
+    kind = str(raw.get("type", "claim")).lower()
+    if kind not in allowed:
+        kind = "claim"
+    try:
+        start = int(raw["line_start"])
+        end = int(raw.get("line_end", start))
+    except (KeyError, TypeError, ValueError):
+        return None
+    if start < 1 or end < start or end > len(lines):
+        return None
+    source_quote = "\n".join(lines[start - 1:end]).strip()
+    quote = str(raw.get("quote", "")).strip()
+    if quote and quote != source_quote:
+        return None
+    text = str(raw.get("text", "")).strip()
+    if not text:
+        return None
+    return _candidate(doc, text, start, end, source_quote, kind)
+
+
+def _extract_llm_claims(doc: dict[str, Any], source_root: Path, adapter: Any) -> tuple[list[dict[str, Any]], int]:
+    path = source_root / doc["path"]
+    lines = _read(path).splitlines()
+    numbered = "\n".join(f"{i}: {line}" for i, line in enumerate(lines, 1))
+    raw_claims = adapter.extract_claims(document_id=doc["document_id"], path=doc["path"], numbered_text=numbered)
+    accepted: list[dict[str, Any]] = []
+    rejected = 0
+    for raw in raw_claims:
+        candidate = _validate_llm_claim(doc, lines, raw)
+        if candidate is None:
+            rejected += 1
+        else:
+            accepted.append(candidate)
+    return accepted, rejected
+
+
+def analyze_workspace(workspace: str | Path, source_root: str | Path | None = None, adapter: Any = None) -> dict[str, Any]:
     workspace = Path(workspace)
     registry = json.loads((workspace / "document_registry.json").read_text(encoding="utf-8"))
     source_root = Path(source_root or workspace.parent)
     all_claims: list[dict[str, Any]] = []
+    llm_rejected = 0
+    extraction_mode = "deterministic"
     for doc in registry["documents"]:
-        all_claims.extend(_extract_claims(doc, source_root))
+        if adapter is None:
+            all_claims.extend(_extract_claims(doc, source_root))
+        else:
+            extraction_mode = "llm_with_deterministic_evidence_validation"
+            claims, rejected = _extract_llm_claims(doc, source_root, adapter)
+            all_claims.extend(claims)
+            llm_rejected += rejected
 
     groups: dict[str, list[dict[str, Any]]] = {}
     for claim in all_claims:
@@ -141,7 +190,7 @@ def analyze_workspace(workspace: str | Path, source_root: str | Path | None = No
         if claim["validation_status"] != "VALIDATED"
     ]
     result = {
-        "schema_version": "0.1",
+        "schema_version": "0.2",
         "product": "PKEA",
         "documents": registry["documents"],
         "claims": all_claims,
@@ -152,6 +201,8 @@ def analyze_workspace(workspace: str | Path, source_root: str | Path | None = No
             "unsupported_claims_promoted": False,
             "human_gate_required": True,
             "canonicalization": "PROHIBITED_IN_MVP",
+            "extraction_mode": extraction_mode,
+            "llm_claims_rejected_by_evidence_validation": llm_rejected,
         },
     }
     (workspace / "analysis.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -169,6 +220,8 @@ def write_report(workspace: str | Path, output: str | Path | None = None) -> Pat
         f"Candidate claims: **{len(data['claims'])}**  ",
         f"Unresolved conflicts: **{len(data['conflicts'])}**  ",
         f"Evidence gaps: **{len(data['gaps'])}**",
+        f"Extraction mode: **{data['controls']['extraction_mode']}**  ",
+        f"LLM candidates rejected by evidence validation: **{data['controls']['llm_claims_rejected_by_evidence_validation']}**",
         "",
         "## Claims and evidence",
     ]
@@ -191,6 +244,7 @@ def write_report(workspace: str | Path, output: str | Path | None = None) -> Pat
     lines += [
         "- No candidate is canonical by default.",
         "- Source locations are retained for traceability.",
+        "- LLM output is advisory; evidence validation is deterministic.",
         "- Conflicts remain unresolved until human review.",
     ]
     output.write_text("\n".join(lines) + "\n", encoding="utf-8")
