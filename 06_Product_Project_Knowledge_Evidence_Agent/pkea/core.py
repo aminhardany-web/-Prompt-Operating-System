@@ -30,11 +30,11 @@ def sha256_text(value: str) -> str:
 
 
 def _read_docx(path: Path) -> str:
-    """Read DOCX paragraph text without depending on a third-party parser.
+    """Extract visible DOCX body paragraphs while preserving evidence line positions.
 
-    Paragraph boundaries are preserved because evidence line numbers are part of
-    the audit contract. Word line-break and tab elements are represented in the
-    extracted snapshot rather than silently discarded.
+    Paragraph boundaries are preserved, including empty paragraphs, because the
+    extracted snapshot is the audit source for deterministic line evidence.
+    Word tabs and explicit line breaks are retained rather than discarded.
     """
     try:
         with zipfile.ZipFile(path) as archive:
@@ -56,11 +56,12 @@ def _read_docx(path: Path) -> str:
                 chunks.append(node.text or "")
             elif node.tag == f"{{{namespace['w']}}}tab":
                 chunks.append("\t")
-            elif node.tag == f"{{{namespace['w']}}}br":
+            elif node.tag in {
+                f"{{{namespace['w']}}}br",
+                f"{{{namespace['w']}}}cr",
+            }:
                 chunks.append("\n")
-        text = "".join(chunks).strip()
-        if text:
-            paragraphs.append(text)
+        paragraphs.append("".join(chunks).strip())
     return "\n".join(paragraphs)
 
 
