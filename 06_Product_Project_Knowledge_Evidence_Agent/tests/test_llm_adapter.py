@@ -29,7 +29,7 @@ class TestLLMValidation(unittest.TestCase):
                 "line_end": 2,
                 "quote": "The system must retain evidence.",
             }])
-            result = analyze_workspace(workspace, source, adapter=adapter)
+            result = analyze_workspace(workspace, source_root=source, adapter=adapter)
             self.assertEqual(len(result["claims"]), 1)
             self.assertEqual(result["controls"]["extraction_mode"], "llm_with_deterministic_evidence_validation")
             self.assertEqual(result["controls"]["llm_claims_rejected_by_evidence_validation"], 0)
@@ -49,7 +49,7 @@ class TestLLMValidation(unittest.TestCase):
                 "line_end": 2,
                 "quote": "The system must delete evidence.",
             }])
-            result = analyze_workspace(workspace, source, adapter=adapter)
+            result = analyze_workspace(workspace, source_root=source, adapter=adapter)
             self.assertEqual(len(result["claims"]), 0)
             self.assertEqual(result["controls"]["llm_claims_rejected_by_evidence_validation"], 1)
 
@@ -68,7 +68,7 @@ class TestLLMValidation(unittest.TestCase):
                 "line_end": 2,
                 "quote": "Decision: Retain all project evidence.",
             }])
-            result = analyze_workspace(workspace, source, adapter=adapter)
+            result = analyze_workspace(workspace, source_root=source, adapter=adapter)
             self.assertEqual(len(result["claims"]), 0)
             self.assertEqual(result["controls"]["llm_claims_rejected_by_evidence_validation"], 1)
 
