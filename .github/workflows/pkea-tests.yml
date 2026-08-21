@@ -27,3 +27,6 @@ jobs:
       - name: Run golden evaluation
         working-directory: 06_Product_Project_Knowledge_Evidence_Agent
         run: python evaluation/run_eval.py
+      - name: Run imported Library corpus evaluation
+        working-directory: 06_Product_Project_Knowledge_Evidence_Agent
+        run: python evaluation/run_library_eval.py
