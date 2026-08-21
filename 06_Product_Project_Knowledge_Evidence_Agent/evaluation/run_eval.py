@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import json
+import shutil
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -12,11 +14,17 @@ from pkea.core import analyze_workspace, ingest_path  # noqa: E402
 
 def main() -> int:
     base = Path(__file__).resolve().parent
-    source = base / "golden_project"
-    workspace = base / ".workspace"
-    expected = json.loads((source / "golden.json").read_text(encoding="utf-8"))
-    registry = ingest_path(source, workspace)
-    result = analyze_workspace(workspace, source)
+    fixture = base / "golden_project"
+    expected = json.loads((fixture / "golden.json").read_text(encoding="utf-8"))
+
+    with tempfile.TemporaryDirectory() as tmp:
+        source = Path(tmp) / "project"
+        source.mkdir()
+        for name in ("01_strategy.md", "02_decisions.md"):
+            shutil.copy2(fixture / name, source / name)
+        workspace = Path(tmp) / "workspace"
+        registry = ingest_path(source, workspace)
+        result = analyze_workspace(workspace, source)
 
     type_counts: dict[str, int] = {}
     for claim in result["claims"]:
