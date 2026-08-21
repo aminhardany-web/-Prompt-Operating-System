@@ -45,7 +45,8 @@ class TestPKEA(unittest.TestCase):
 <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
   <w:body>
     <w:p><w:r><w:t>Decision: Use controlled change.</w:t></w:r></w:p>
-    <w:p><w:r><w:t>Risk: stale source.</w:t></w:r></w:p>
+    <w:p/>
+    <w:p><w:r><w:t>Risk: stale</w:t><w:tab/><w:t>source.</w:t><w:br/><w:t>still source.</w:t></w:r></w:p>
   </w:body>
 </w:document>"""
             with zipfile.ZipFile(docx, "w") as archive:
@@ -56,10 +57,17 @@ class TestPKEA(unittest.TestCase):
             self.assertEqual(len(registry["documents"]), 1)
             self.assertEqual(registry["documents"][0]["format"], "docx")
 
+            snapshot = workspace / registry["documents"][0]["snapshot_path"]
+            snapshot_lines = snapshot.read_text(encoding="utf-8").splitlines()
+            self.assertEqual(snapshot_lines[0], "Decision: Use controlled change.")
+            self.assertEqual(snapshot_lines[1], "")
+            self.assertEqual(snapshot_lines[2], "Risk: stale\tsource.")
+            self.assertEqual(snapshot_lines[3], "still source.")
+
             result = analyze_workspace(workspace)
             self.assertEqual(len(result["claims"]), 2)
             self.assertEqual(result["claims"][0]["evidence"]["line_start"], 1)
-            self.assertEqual(result["claims"][1]["evidence"]["line_start"], 2)
+            self.assertEqual(result["claims"][1]["evidence"]["line_start"], 3)
 
     def test_analysis_uses_ingested_snapshot_after_source_changes(self):
         with tempfile.TemporaryDirectory() as tmp:
