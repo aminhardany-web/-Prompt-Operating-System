@@ -147,9 +147,8 @@ def _claim_text_is_grounded(text: str, source_quote: str) -> bool:
     source_tokens = _normalize_tokens(source_quote)
     if not claim_tokens:
         return False
-    overlap = len(claim_tokens & source_tokens) / len(claim_tokens)
     polarity_conflict = NEGATION.search(text) is not None and NEGATION.search(source_quote) is None
-    return overlap >= 0.60 and not polarity_conflict
+    return claim_tokens.issubset(source_tokens) and not polarity_conflict
 
 
 def _validate_llm_claim(doc: dict[str, Any], lines: list[str], raw: dict[str, Any]) -> dict[str, Any] | None:
