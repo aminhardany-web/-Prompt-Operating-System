@@ -25,7 +25,7 @@ class TestPKEA(unittest.TestCase):
             registry = ingest_path(source, workspace)
             self.assertEqual(len(registry["documents"]), 2)
 
-            result = analyze_workspace(workspace, source)
+            result = analyze_workspace(workspace)
             self.assertEqual(len(result["claims"]), 3)
             self.assertEqual(len(result["conflicts"]), 1)
             self.assertTrue(all(c["validation_status"] == "CANDIDATE" for c in result["claims"]))
@@ -56,10 +56,28 @@ class TestPKEA(unittest.TestCase):
             self.assertEqual(len(registry["documents"]), 1)
             self.assertEqual(registry["documents"][0]["format"], "docx")
 
-            result = analyze_workspace(workspace, source)
+            result = analyze_workspace(workspace)
             self.assertEqual(len(result["claims"]), 2)
             self.assertEqual(result["claims"][0]["evidence"]["line_start"], 1)
             self.assertEqual(result["claims"][1]["evidence"]["line_start"], 2)
+
+    def test_analysis_uses_ingested_snapshot_after_source_changes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "project"
+            source.mkdir()
+            source_file = source / "a.md"
+            source_file.write_text("Decision: Keep evidence.\n", encoding="utf-8")
+            workspace = root / "workspace"
+            registry = ingest_path(source, workspace)
+            original_hash = registry["documents"][0]["sha256"]
+
+            source_file.write_text("Decision: Delete evidence.\n", encoding="utf-8")
+            result = analyze_workspace(workspace)
+
+            self.assertEqual(registry["documents"][0]["sha256"], original_hash)
+            self.assertEqual(result["claims"][0]["text"], "Keep evidence.")
+            self.assertEqual(result["controls"]["analysis_source"], "INGESTED_SNAPSHOT")
 
 
 if __name__ == "__main__":
