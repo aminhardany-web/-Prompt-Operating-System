@@ -19,7 +19,7 @@ PKEA is an evidence-first runtime. It does not silently turn model output into a
 
 ## Current capabilities
 
-1. Ingest Markdown, TXT, JSON and CSV project sources.
+1. Ingest Markdown, TXT, JSON, CSV and DOCX project sources.
 2. Build a stable document/source registry with SHA-256 content hashes.
 3. Extract decisions, requirements, risks, actions and claims deterministically.
 4. Optionally extract richer claims with an OpenAI Responses API adapter using structured JSON output.
@@ -58,14 +58,15 @@ The LLM is not the evidence authority. Source text is.
 
 ## Evaluation
 
-The golden project verifies document count, claim count, claim types, conflict detection, source traceability and the human-gate control. Unit tests additionally verify that fabricated LLM quotes are rejected and that the validation ledger is append-only.
+The golden project verifies document count, claim count, claim types, conflict detection, source traceability and the human-gate control. Unit tests additionally verify that fabricated LLM quotes are rejected, DOCX paragraph extraction remains deterministic, and the validation ledger is append-only.
 
 ## Current limitations
 
-- PDF/DOCX extraction is not yet in the standard-library MVP.
+- PDF extraction is not yet in the standard-library MVP.
 - Connectors for SharePoint, Drive, Jira, ERP and email are deferred.
 - Conflict resolution remains human-controlled.
 - Autonomous execution and multi-agent orchestration are explicitly deferred until evidence quality is validated on real projects.
+- The Library corpus is imported through a controlled manifest; binary source copies can be added without making them canonical.
 
 ## Architecture position
 
