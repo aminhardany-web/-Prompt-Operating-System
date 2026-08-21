@@ -13,16 +13,39 @@ class ClaimExtractionAdapter(Protocol):
 
 
 SYSTEM_PROMPT = """You extract candidate project claims from source text.
-Return JSON only: {\"claims\":[...]}. Each claim must contain type, text, line_start, line_end, quote.
+Return only claims that are explicitly supported by the supplied source lines.
 Allowed type values: decision, requirement, risk, action, claim.
 Never invent evidence. line_start/line_end must point to the supplied numbered source lines and quote must be copied exactly from those lines.
 These are CANDIDATE findings only; do not mark them validated or canonical."""
+
+CLAIM_SCHEMA = {
+    "type": "object",
+    "additionalProperties": False,
+    "properties": {
+        "claims": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": False,
+                "properties": {
+                    "type": {"type": "string", "enum": ["decision", "requirement", "risk", "action", "claim"]},
+                    "text": {"type": "string"},
+                    "line_start": {"type": "integer", "minimum": 1},
+                    "line_end": {"type": "integer", "minimum": 1},
+                    "quote": {"type": "string"},
+                },
+                "required": ["type", "text", "line_start", "line_end", "quote"],
+            },
+        }
+    },
+    "required": ["claims"],
+}
 
 
 @dataclass
 class OpenAIResponsesAdapter:
     api_key: str
-    model: str = "gpt-5-mini"
+    model: str = "gpt-5.6-luna"
     endpoint: str = "https://api.openai.com/v1/responses"
     timeout: int = 60
 
@@ -31,7 +54,7 @@ class OpenAIResponsesAdapter:
         key = os.getenv("OPENAI_API_KEY")
         if not key:
             raise RuntimeError("OPENAI_API_KEY is required for the OpenAI adapter")
-        return cls(api_key=key, model=os.getenv("PKEA_LLM_MODEL", "gpt-5-mini"))
+        return cls(api_key=key, model=os.getenv("PKEA_LLM_MODEL", "gpt-5.6-luna"))
 
     def extract_claims(self, *, document_id: str, path: str, numbered_text: str) -> list[dict[str, Any]]:
         payload = {
@@ -40,7 +63,14 @@ class OpenAIResponsesAdapter:
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": f"Document ID: {document_id}\nPath: {path}\n\n{numbered_text}"},
             ],
-            "text": {"format": {"type": "json_object"}},
+            "text": {
+                "format": {
+                    "type": "json_schema",
+                    "name": "pkea_claim_extraction",
+                    "strict": True,
+                    "schema": CLAIM_SCHEMA,
+                }
+            },
         }
         request = urllib.request.Request(
             self.endpoint,
