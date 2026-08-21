@@ -17,6 +17,7 @@ def main() -> None:
     analyze = sub.add_parser("analyze", help="extract claims and evidence")
     analyze.add_argument("workspace")
     analyze.add_argument("--source-root", default=None)
+    analyze.add_argument("--llm", choices=["none", "openai"], default="none")
 
     report = sub.add_parser("report", help="write an audit-ready Markdown report")
     report.add_argument("workspace")
@@ -27,8 +28,15 @@ def main() -> None:
         result = ingest_path(args.source, args.output)
         print(f"Registered {len(result['documents'])} documents in {args.output}")
     elif args.command == "analyze":
-        result = analyze_workspace(args.workspace, args.source_root)
-        print(f"Claims={len(result['claims'])} Conflicts={len(result['conflicts'])} Gaps={len(result['gaps'])}")
+        adapter = None
+        if args.llm == "openai":
+            from .llm_adapter import OpenAIResponsesAdapter
+            adapter = OpenAIResponsesAdapter.from_env()
+        result = analyze_workspace(args.workspace, args.source_root, adapter=adapter)
+        print(
+            f"Claims={len(result['claims'])} Conflicts={len(result['conflicts'])} "
+            f"Gaps={len(result['gaps'])} Mode={result['controls']['extraction_mode']}"
+        )
     else:
         path = write_report(args.workspace, args.output)
         print(Path(path).resolve())
