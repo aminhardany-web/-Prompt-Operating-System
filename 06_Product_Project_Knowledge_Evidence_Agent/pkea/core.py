@@ -16,9 +16,9 @@ CLAIM_PATTERNS = {
     "action": re.compile(r"^\s*(?:action|اقدام|todo)\s*[:：-]\s*(.+)$", re.I),
     "claim": re.compile(r"^\s*(?:claim|ادعا)\s*[:：-]\s*(.+)$", re.I),
 }
-
-NEGATION = re.compile(r"\b(?:not|no|never|cannot|نیست|نباید|نمی)\b", re.I)
-SUBJECT = re.compile(r"(?:decision|requirement|risk|action|claim|تصمیم|نیازمندی|الزام|ریسک|اقدام|ادعا)\s*[:：-]\s*", re.I)
+NEGATION = re.compile(r"\b(?:not|no|never|cannot|do not|does not|did not|نیست|نباید|نمی|نه)\b", re.I)
+SUBJECT_PREFIX = re.compile(r"(?:decision|requirement|risk|action|claim|تصمیم|نیازمندی|الزام|ریسک|اقدام|ادعا)\s*[:：-]\s*", re.I)
+NEGATION_PHRASES = re.compile(r"\b(?:do not|does not|did not|cannot|never|not|no)\b", re.I)
 
 
 def sha256_text(value: str) -> str:
@@ -64,15 +64,17 @@ def ingest_path(source: str | Path, output: str | Path) -> dict[str, Any]:
 
 
 def _subject(text: str) -> str:
-    text = SUBJECT.sub("", text).strip().lower()
-    text = re.sub(r"[^\w\s-]", " ", text, flags=re.UNICODE)
-    return re.sub(r"\s+", " ", text).strip()
+    value = SUBJECT_PREFIX.sub("", text).strip().lower()
+    value = NEGATION_PHRASES.sub(" ", value)
+    value = re.sub(r"\b(?:is|are|was|were|be|should|must|can|cannot|use|uses|used|است|هست|باشد|باید|نباید)\b", " ", value, flags=re.I)
+    value = re.sub(r"[^\w\s-]", " ", value, flags=re.UNICODE)
+    return re.sub(r"\s+", " ", value).strip()
 
 
 def _extract_claims(doc: dict[str, Any], source_root: Path) -> list[dict[str, Any]]:
     path = source_root / doc["path"]
     lines = _read(path).splitlines()
-    claims = []
+    claims: list[dict[str, Any]] = []
     for number, line in enumerate(lines, 1):
         for kind, pattern in CLAIM_PATTERNS.items():
             match = pattern.match(line)
@@ -124,23 +126,20 @@ def analyze_workspace(workspace: str | Path, source_root: str | Path | None = No
                 "reason": "Opposite polarity candidates share the same normalized subject.",
             })
 
-    dependencies = []
-    for claim in all_claims:
-        dependencies.append({
-            "from": claim["document_id"],
-            "to": claim["claim_id"],
-            "type": "SUPPORTS",
-        })
-
-    gaps = []
-    for claim in all_claims:
-        if claim["validation_status"] != "VALIDATED":
-            gaps.append({
-                "gap_id": "GAP-" + sha256_text(claim["claim_id"])[:12],
-                "claim_id": claim["claim_id"],
-                "type": "HUMAN_VALIDATION_REQUIRED",
-                "severity": "MEDIUM",
-            })
+    dependencies = [
+        {"from": claim["document_id"], "to": claim["claim_id"], "type": "SUPPORTS"}
+        for claim in all_claims
+    ]
+    gaps = [
+        {
+            "gap_id": "GAP-" + sha256_text(claim["claim_id"])[:12],
+            "claim_id": claim["claim_id"],
+            "type": "HUMAN_VALIDATION_REQUIRED",
+            "severity": "MEDIUM",
+        }
+        for claim in all_claims
+        if claim["validation_status"] != "VALIDATED"
+    ]
     result = {
         "schema_version": "0.1",
         "product": "PKEA",
