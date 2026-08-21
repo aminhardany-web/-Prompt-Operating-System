@@ -30,13 +30,35 @@ def sha256_text(value: str) -> str:
 
 
 def _read_docx(path: Path) -> str:
-    with zipfile.ZipFile(path) as archive:
-        xml = archive.read("word/document.xml")
-    root = ET.fromstring(xml)
+    """Read DOCX paragraph text without depending on a third-party parser.
+
+    Paragraph boundaries are preserved because evidence line numbers are part of
+    the audit contract. Word line-break and tab elements are represented in the
+    extracted snapshot rather than silently discarded.
+    """
+    try:
+        with zipfile.ZipFile(path) as archive:
+            xml = archive.read("word/document.xml")
+    except (KeyError, zipfile.BadZipFile) as exc:
+        raise ValueError(f"Invalid DOCX package: {path}") from exc
+
+    try:
+        root = ET.fromstring(xml)
+    except ET.ParseError as exc:
+        raise ValueError(f"Invalid DOCX XML: {path}") from exc
+
     namespace = {"w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main"}
     paragraphs: list[str] = []
-    for paragraph in root.findall(".//w:p", namespace):
-        text = "".join(node.text or "" for node in paragraph.findall(".//w:t", namespace)).strip()
+    for paragraph in root.findall(".//w:body/w:p", namespace):
+        chunks: list[str] = []
+        for node in paragraph.iter():
+            if node.tag == f"{{{namespace['w']}}}t":
+                chunks.append(node.text or "")
+            elif node.tag == f"{{{namespace['w']}}}tab":
+                chunks.append("\t")
+            elif node.tag == f"{{{namespace['w']}}}br":
+                chunks.append("\n")
+        text = "".join(chunks).strip()
         if text:
             paragraphs.append(text)
     return "\n".join(paragraphs)
@@ -46,6 +68,12 @@ def _read(path: Path) -> str:
     suffix = path.suffix.lower()
     if suffix == ".docx":
         return _read_docx(path)
+    if suffix == ".json":
+        obj = json.loads(path.read_text(encoding="utf-8"))
+        return json.dumps(obj, ensure_ascii=False, indent=2)
+    if suffix == ".csv":
+        with path.open("r", encoding="utf-8", newline="") as fh:
+            return "\n".join(", ".join(row) for row in csv.reader(fh))
     return path.read_text(encoding="utf-8", errors="replace")
 
 
