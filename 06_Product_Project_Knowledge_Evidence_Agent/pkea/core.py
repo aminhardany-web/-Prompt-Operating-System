@@ -46,19 +46,21 @@ def _read(path: Path) -> str:
     suffix = path.suffix.lower()
     if suffix == ".docx":
         return _read_docx(path)
-    if suffix == ".json":
-        obj = json.loads(path.read_text(encoding="utf-8"))
-        return json.dumps(obj, ensure_ascii=False, indent=2)
-    if suffix == ".csv":
-        with path.open("r", encoding="utf-8", newline="") as fh:
-            return "\n".join(", ".join(row) for row in csv.reader(fh))
     return path.read_text(encoding="utf-8", errors="replace")
 
 
-def _documents(source: Path) -> list[Path]:
+def _documents(source: Path, output: Path | None = None) -> list[Path]:
     if source.is_file():
         return [source] if source.suffix.lower() in SUPPORTED else []
-    return sorted(p for p in source.rglob("*") if p.is_file() and p.suffix.lower() in SUPPORTED)
+    output = output.resolve() if output else None
+    paths: list[Path] = []
+    for path in source.rglob("*"):
+        if not path.is_file() or path.suffix.lower() not in SUPPORTED:
+            continue
+        if output and (path == output or output in path.parents):
+            continue
+        paths.append(path)
+    return sorted(paths)
 
 
 def ingest_path(source: str | Path, output: str | Path) -> dict[str, Any]:
@@ -67,24 +69,14 @@ def ingest_path(source: str | Path, output: str | Path) -> dict[str, Any]:
     snapshots = output / "source_snapshots"
     snapshots.mkdir(parents=True, exist_ok=True)
     docs: list[dict[str, Any]] = []
-    for path in _documents(source):
+    for path in _documents(source, output):
         text = _read(path)
         rel = str(path.relative_to(source)) if source.is_dir() else path.name
         document_id = "DOC-" + sha256_text(rel + "\n" + text)[:12]
         snapshot_name = f"{document_id}.txt"
         (snapshots / snapshot_name).write_text(text, encoding="utf-8")
-        docs.append({
-            "document_id": document_id,
-            "path": rel,
-            "filename": path.name,
-            "format": path.suffix.lower().lstrip("."),
-            "sha256": sha256_text(text),
-            "bytes": len(text.encode("utf-8")),
-            "lines": len(text.splitlines()),
-            "snapshot_path": f"source_snapshots/{snapshot_name}",
-            "status": "INGESTED",
-        })
-    registry = {"schema_version": "0.2", "source_root": str(source), "snapshot_policy": "ANALYZE_FROM_INGESTED_SNAPSHOT", "documents": docs}
+        docs.append({"document_id": document_id, "path": rel, "filename": path.name, "format": path.suffix.lower().lstrip("."), "sha256": sha256_text(text), "bytes": len(text.encode("utf-8")), "lines": len(text.splitlines()), "snapshot_path": f"source_snapshots/{snapshot_name}", "status": "INGESTED"})
+    registry = {"schema_version": "0.3", "source_root": str(source), "snapshot_policy": "ANALYZE_FROM_INGESTED_SNAPSHOT", "documents": docs}
     (output / "document_registry.json").write_text(json.dumps(registry, ensure_ascii=False, indent=2), encoding="utf-8")
     return registry
 
@@ -180,7 +172,6 @@ def analyze_workspace(workspace: str | Path, source_root: str | Path | None = No
             claims, rejected = _extract_llm_claims(doc, workspace, adapter)
             all_claims.extend(claims)
             llm_rejected += rejected
-
     groups: dict[str, list[dict[str, Any]]] = {}
     for claim in all_claims:
         if claim["subject"]:
