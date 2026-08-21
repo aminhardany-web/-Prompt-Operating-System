@@ -53,6 +53,25 @@ class TestLLMValidation(unittest.TestCase):
             self.assertEqual(len(result["claims"]), 0)
             self.assertEqual(result["controls"]["llm_claims_rejected_by_evidence_validation"], 1)
 
+    def test_valid_quote_with_unsupported_claim_text_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "project"
+            source.mkdir()
+            (source / "a.md").write_text("# Project\nDecision: Retain all project evidence.\n", encoding="utf-8")
+            workspace = root / "workspace"
+            ingest_path(source, workspace)
+            adapter = FakeAdapter([{
+                "type": "decision",
+                "text": "Delete all project evidence.",
+                "line_start": 2,
+                "line_end": 2,
+                "quote": "Decision: Retain all project evidence.",
+            }])
+            result = analyze_workspace(workspace, source, adapter=adapter)
+            self.assertEqual(len(result["claims"]), 0)
+            self.assertEqual(result["controls"]["llm_claims_rejected_by_evidence_validation"], 1)
+
 
 if __name__ == "__main__":
     unittest.main()
