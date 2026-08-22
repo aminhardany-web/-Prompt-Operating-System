@@ -37,7 +37,7 @@ jobs:
         working-directory: 06_Product_Project_Knowledge_Evidence_Agent
         run: python evaluation/run_library_eval.py
       - name: Run production CLI against canonical sample project
-        working-directory: 06_Product_Project_Knowledge_Agent
+        working-directory: 06_Product_Project_Knowledge_Evidence_Agent
         run: |
           rm -rf /tmp/pkea-sample
           python -m pkea.cli run ../../sample_project --output /tmp/pkea-sample
