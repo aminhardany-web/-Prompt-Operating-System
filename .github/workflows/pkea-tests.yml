@@ -2,11 +2,17 @@ name: PKEA tests
 
 on:
   push:
+    branches: [main]
     paths:
       - '06_Product_Project_Knowledge_Evidence_Agent/**'
+      - 'sample_project/**'
+      - '.github/workflows/pkea-tests.yml'
   pull_request:
     paths:
       - '06_Product_Project_Knowledge_Evidence_Agent/**'
+      - 'sample_project/**'
+      - '.github/workflows/pkea-tests.yml'
+  workflow_dispatch:
 
 jobs:
   test:
@@ -30,6 +36,29 @@ jobs:
       - name: Run imported Library corpus evaluation
         working-directory: 06_Product_Project_Knowledge_Evidence_Agent
         run: python evaluation/run_library_eval.py
+      - name: Run production CLI against canonical sample project
+        working-directory: 06_Product_Project_Knowledge_Agent
+        run: |
+          rm -rf /tmp/pkea-sample
+          python -m pkea.cli run ../../sample_project --output /tmp/pkea-sample
+          test -s /tmp/pkea-sample/document_registry.json
+          test -s /tmp/pkea-sample/analysis.json
+          test -s /tmp/pkea-sample/report.md
+          test -s /tmp/pkea-sample/run_summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('/tmp/pkea-sample')
+          registry = json.loads((root / 'document_registry.json').read_text())
+          analysis = json.loads((root / 'analysis.json').read_text())
+          summary = json.loads((root / 'run_summary.json').read_text())
+          assert len(registry['documents']) >= 3
+          assert len(analysis['claims']) >= 4
+          assert all(c['evidence']['path'] and c['evidence']['line_start'] for c in analysis['claims'])
+          assert analysis['controls']['analysis_source'] == 'INGESTED_SNAPSHOT'
+          assert analysis['controls']['human_gate_required'] is True
+          assert summary['status'] == 'COMPLETED'
+          PY
       - name: Run real PKEA CLI against the complete repository Library corpus
         working-directory: 06_Product_Project_Knowledge_Evidence_Agent
         run: |
@@ -39,10 +68,26 @@ jobs:
           test -s /tmp/pkea-real-library/analysis.json
           test -s /tmp/pkea-real-library/report.md
           test -s /tmp/pkea-real-library/run_summary.json
-      - name: Upload real-library execution artifacts
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('/tmp/pkea-real-library')
+          registry = json.loads((root / 'document_registry.json').read_text())
+          analysis = json.loads((root / 'analysis.json').read_text())
+          summary = json.loads((root / 'run_summary.json').read_text())
+          assert len(registry['documents']) >= 4
+          assert all(c['evidence']['path'] and c['evidence']['line_start'] for c in analysis['claims'])
+          assert analysis['controls']['analysis_source'] == 'INGESTED_SNAPSHOT'
+          assert analysis['controls']['human_gate_required'] is True
+          assert analysis['controls']['canonicalization'] == 'PROHIBITED_IN_MVP'
+          assert summary['status'] == 'COMPLETED'
+          PY
+      - name: Upload production execution artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: pkea-real-library-execution
-          path: /tmp/pkea-real-library
+          name: pkea-production-execution
+          path: |
+            /tmp/pkea-sample
+            /tmp/pkea-real-library
           if-no-files-found: warn
