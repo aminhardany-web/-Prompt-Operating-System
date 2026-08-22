@@ -3,116 +3,116 @@
 
 **Record type:** SOURCE-PRESERVING RESEARCH INTAKE
 **Received:** 2026-08-23
-**Status:** RECEIVED / PENDING OFFICIAL-SOURCE VERIFICATION / NOT YET FROZEN
+**Status:** PARTIALLY VERIFIED / CANONICAL FACTS EXTRACTED / PORT-CASE CLAIMS EVIDENCE-SCOPED / NOT YET FROZEN AS COMPLETE BASELINE
+**Verification record:** `VERIFICATION_REPORT_PHASE_1_2_2026-08-23.md`
 **Scope:** International port strategic approaches (2025–2026), reference ports, universities/programmes, methods, books/frameworks, and proposed applicability to Port Imam Khomeini.
 
 ## Control rule
 This record preserves the submitted research as an incoming evidence package. Claims, rankings, named methodologies, university curriculum claims, and statements about specific port practices MUST NOT be treated as verified facts until independently checked against current primary/official sources. Analytical inferences must remain explicitly distinguished from source facts.
 
-## Phase 1 — Submitted strategic-port findings
+## Verified core findings
 
-The submitted material identifies a common 2026 pattern across leading ports: digital corridors/data visibility, energy transition/decarbonisation, automation, inter-port collaboration, governance/structural reform, resilience, ecosystem integration, and human-capital development rather than physical expansion alone.
+The current official-source review confirms the following:
 
-Reference cases submitted:
-1. Rotterdam — data-driven port orchestration; harmonised APIs; AI; digital corridors; energy/emissions management; shore power.
-2. Singapore — ecosystem governance; digital transformation; workforce readiness; Maritime Singapore Master Plan; maritime digitalisation; decarbonisation.
-3. Antwerp-Bruges — smart-port logic connecting economy, climate, and people.
-4. Hamburg — smartPORT and chainPORT.
-5. Los Angeles — regulatory-driven zero-emission transition and clean-air investment.
-6. Long Beach — capacity growth combined with green transition and supply-chain/data visibility.
-7. DP World/Jebel Ali — automation, blockchain, integrated logistics ecosystems, ESG governance.
-8. Busan — smart-port modernisation plus infrastructure expansion.
-9. Shanghai — large-scale automation, green digitalisation, electronic clearance.
-10. Ningbo-Zhoushan — hub-and-network integration.
+- World Bank Port Reform Toolkit, Third Edition (2025), is current and explicitly addresses contemporary port trends including resilience, climate change, corporate responsibility and digitalisation; its modules include Trends, Change Management and Port Governance. The Change Management module describes a five-step cycle of assessment, planning, implementation, performance measurement and continuous feedback.
+- UNCTAD TrainForTrade Port Management Programme is a 240-hour, two-year programme with eight modules and a final dissertation; content is adapted to local contexts.
+- UNCTAD Port Management Series Volume 14 was published in February 2026 and presents 2019–2024 case studies from the English-speaking TrainForTrade network.
+- OECD Supply Chain Resilience Review 2025 contains the formulation “agile, adaptable and aligned supply chains”; this is an OECD supply-chain concept, not automatically a port-specific methodology.
+- IAPH PRL-MF is a verified self-assessment/communication tool for low-emission marine-fuel readiness.
+- Port of Rotterdam has verified strategic pillars around society, climate/circularity, resilience/security of supply/strategic autonomy, and future-proof earning power; its 2025 digital report documents AI, data sharing, cybersecurity and renewable-energy work.
+- Singapore MPA has a verified Maritime Digitalisation Playbook with a Digital Transformation Framework organized around why/what/how and supporting self-assessment and proposal tools.
+- Port of Antwerp-Bruges has a verified smart-port model combining economy, climate and people, with digital twin, sensors, autonomous drones, smart cameras, 5G and ecosystem collaboration.
+- Hamburg has a verified SmartPORT/ChainPORT history supporting digitalisation, inter-port exchange and benchmarking.
+- Port of Los Angeles has a verified Clean Air Action Plan and zero-emission transition objective.
+- Erasmus MEL officially integrates port management/economics, shipping economics/policy, logistics/supply chain, data science, sustainability, finance, maritime law, maritime logistics and an applied thesis.
+- NTU Singapore's current MSc Maritime Studies includes maritime economics, shipping management, port management, maritime logistics, environmental shipping, sustainable/green finance, and sustainability/digitalisation.
+- Stopford's Maritime Economics 3rd edition is verified as a foundational shipping-economics reference.
+- Port Economics, Management and Policy 2nd edition is verified in the Routledge 2026 catalogue; the claim that it is universally the single most important port book remains analytical, not a fact.
 
-Submitted cross-cutting methods:
-- Port reform / strategic change
-- Adaptive port strategy
-- Resilience-based port strategy
-- Smart-port transformation
-- Port ecosystem strategy
-- Data-driven port management
-- Sustainability/decarbonisation strategy
-- Human-capital and local training
+## Phase 1 — Submitted reference-port cases
 
-Submitted institutional references:
-- World Bank Port Reform Toolkit, Third Edition
-- UNCTAD TrainForTrade Port Management Programme
-- OECD resilience work
-- IAPH digitalisation and low-emission-fuel readiness resources
+1. Rotterdam — submitted label: data-driven port orchestration; verified evidence supports digitalisation, AI, data sharing, resilience and energy transition. Exact “orchestration method” remains an analytical label.
+2. Singapore — submitted label: ecosystem governance/digital transformation/workforce readiness; current official evidence verifies digital transformation planning and maritime digitalisation, but a single named “ecosystem governance method” is not frozen.
+3. Antwerp-Bruges — verified smart-port/economy-climate-people framing and digital ecosystem practices.
+4. Hamburg — verified SmartPORT/ChainPORT and inter-port knowledge exchange.
+5. Los Angeles — verified Clean Air Action Plan and zero-emission transition; broader “regulatory-driven strategy” is analytical.
+6. Long Beach — remains pending dedicated official-source verification for the specific 2050/capacity/data claims in the submitted text.
+7. DP World/Jebel Ali — remains pending dedicated official-source verification for the exact blockchain/ESG/method labels.
+8. Busan — remains pending dedicated official-source verification for the exact smart-port/expansion methodology label.
+9. Shanghai — remains pending dedicated official-source verification for the exact automation/e-clearance/AI bundle stated in the intake.
+10. Ningbo-Zhoushan — remains pending dedicated official-source verification for the exact connectivity statistics and “hub-and-network integration” classification.
 
-## Phase 2 — Submitted university and academic findings
+## Phase 2 — University findings
 
-The submitted material argues that contemporary strategic port management is generally assembled from interconnected domains rather than taught as a single SWOT-based strategic-planning course:
-- Port economics
-- Maritime economics
-- Port governance
-- Maritime logistics and supply chains
-- Digitalisation
-- Sustainability and energy transition
-- Risk and resilience
+### Verified
+- Erasmus University Rotterdam / MEL: official curriculum and course descriptions verified.
+- NTU Singapore: official MSc Maritime Studies curriculum verified.
 
-Universities/programmes submitted as reference points:
-1. World Maritime University (WMU)
-2. Erasmus University Rotterdam / Maritime Economics and Logistics (MEL)
-3. Nanyang Technological University (NTU) Maritime Studies
+### Pending
+- World Maritime University: exact current programme/course evidence still requires a dedicated official curriculum extraction before being treated as a 2026 benchmark.
+- Southampton, Plymouth, Liverpool John Moores and other universities mentioned in the incoming archive remain unverified and are not yet ranked.
 
-Other universities named in the submitted material for possible Phase 3 verification include Southampton, Plymouth, Liverpool John Moores and others. These are NOT treated as verified selections by this intake record.
+## Strategic-method interpretation
 
-Submitted academic/reference works:
-- World Bank Port Reform Toolkit
-- Maritime Economics — Martin Stopford
-- Port Economics, Management and Policy
-- Maritime Logistics
-- UNCTAD Port Management Series
-- IAPH digitalisation resources
+The submitted list of “methods” is useful as a research taxonomy, but several items are not verified official method names. They should currently be treated as analytical categories:
 
-## Submitted strategic synthesis for KD-003
+- Port Reform / Strategic Change
+- Adaptive Port Strategy
+- Resilience-Based Port Strategy
+- Smart-Port Transformation
+- Port Ecosystem Strategy
+- Data-Driven Port Management
+- Sustainability/Decarbonisation Strategy
+- Human-Capital/Workforce Readiness
+- Digital Corridor / End-to-End Visibility
+- Inter-Port Network Strategy
 
-The proposed evidence-informed stack for a defensible Port Imam Khomeini strategy is:
-1. Port reform/governance and strategic change.
-2. Port economics, competition, and policy.
+## Critical corrections
+
+The following claims are downgraded or rejected pending evidence:
+
+- “Leading ports in 2026 no longer use SWOT/BSC.” → NOT VERIFIED.
+- “All leading ports use the same exact methods.” → NOT VERIFIED.
+- “Port Reform Toolkit is itself the universal strategic-port planning framework.” → TOO BROAD.
+- “The five books/frameworks are formally endorsed by all named universities and institutions.” → NOT VERIFIED.
+- “These five sources cover 70–80% of port knowledge.” → UNSUPPORTED.
+- “These are the ten best ports in the world.” → UNSUPPORTED without a defined ranking source.
+
+Correct working language: these are **reference cases and evidence-informed components** for building a defensible strategy, not a single universal port methodology.
+
+## Proposed KD-003 analytical stack
+
+The evidence supports investigating, not yet freezing, the following integrated layers:
+
+1. Port reform, governance and strategic change.
+2. Port economics, competitiveness and network position.
 3. Maritime economics and shipping-market analysis.
-4. Maritime logistics and supply-chain integration.
-5. Digital-port transformation and data governance.
-6. Resilience and disruption management.
-7. Sustainability and energy transition.
-8. Human-capital development and local capacity building.
+4. Maritime logistics and hinterland/supply-chain integration.
+5. Digital maturity, data governance and process digitalisation.
+6. Resilience and disruption scenarios.
+7. Energy transition/decarbonisation readiness.
+8. Human capital and organisational capability.
+9. Strategic portfolio, investment and implementation governance.
 
-The submitted material explicitly states that SWOT, PESTEL, and BSC should not be treated as sufficient standalone strategic frameworks for a 2026 port strategy. This is an analytical claim requiring source verification; it is NOT frozen as a universal fact.
+**Classification:** INFERENCE.
 
-## Proposed application to Port Imam Khomeini
+## Freeze status
 
-Submitted priorities for later validation and localisation:
-- Use World Bank/UNCTAD port-reform and capacity-building material for governance, benchmarking, and change management.
-- Examine a data/PCS/TOS and end-to-end visibility pathway using relevant digital-port standards and harmonised interfaces.
-- Assess low-emission-fuel readiness using the applicable IAPH framework/tool.
-- Build supply-chain resilience around agility, adaptability, and alignment, subject to verification of the OECD source and exact terminology.
-- Develop a local, problem-based human-capital programme aligned with relevant UNCTAD capacity-building practice.
+**Phase 1–2 official-source verification: PARTIALLY PASSED.**
 
-## Verification queue — mandatory before freeze
+Canonical facts may be promoted to the reference registry.
+Analytical synthesis may enter the KD-003 research layer with `INFERENCE` status.
+Unsupported universal claims have been rejected or downgraded.
+Remaining port cases and WMU/university claims remain in the verification queue.
 
-V-01: Verify every named World Bank, UNCTAD, OECD, and IAPH source against the current official publication/page.
-V-02: Verify the exact edition/year/title and contents of the World Bank Port Reform Toolkit.
-V-03: Verify the exact scope and modules of UNCTAD TrainForTrade Port Management Programme.
-V-04: Verify the claimed OECD resilience formulation and its applicability to ports.
-V-05: Verify IAPH PRL-MF naming, scope, and current status.
-V-06: Verify each of the ten port cases against official port-authority/operator evidence.
-V-07: Separate observed practice from analytical inference for every port methodology label.
-V-08: Verify university programmes from official university curriculum pages for 2026/current academic cycle.
-V-09: Verify whether the named books are actually prescribed/required texts versus general reference works.
-V-10: Verify the claim that leading ports/universities no longer rely on SWOT/BSC alone; do not generalise beyond evidence.
-V-11: Build claim-level source mapping before any FREEZE decision.
-V-12: Record contradictions, stale sources, and unsupported rankings in the Conflict Register.
-
-## Freeze rule
-No statement in this intake becomes a FROZEN BASELINE merely because it appears in the submitted text. Freeze requires claim-level traceability, current primary-source verification, conflict resolution, and independent validation under the repository's existing evidence controls.
+**Next research priority:** complete the remaining port-by-port official evidence and extract current 2026 university curricula, course descriptions, required/recommended books, learning outcomes and methods.
 
 ---
 
 ## Incoming synthesis prompt — preserved for controlled use
 
-The submitted FINAL_PROMPT defines an "Advanced Knowledge Synthesizer and Academic Architect" workflow requiring multi-source ingestion, cross-referencing, deduplication, standardisation, iterative topic-by-topic output, Word-ready Persian academic formatting, source-derived claims only, and prohibition of unsupported external filler. Its embedded audit reports PASS for clarity, structure, executability, constraint fidelity, compression, and safety. The prompt itself is retained as submitted instruction material; its claims about available data sources and execution environment must be validated against actual runtime capabilities before being treated as an executable system contract.
+The submitted FINAL_PROMPT defines an “Advanced Knowledge Synthesizer and Academic Architect” workflow requiring multi-source ingestion, cross-referencing, deduplication, standardisation, iterative topic-by-topic output, Word-ready Persian academic formatting, source-derived claims only, and prohibition of unsupported external filler. Its embedded audit report records PASS for clarity, structure, executability, constraint fidelity, compression and safety. The prompt itself is retained as submitted instruction material; claims about available data sources and execution environment must be validated against actual runtime capabilities before being treated as an executable system contract.
 
 ## Current decision
-RECEIVE → REGISTER → VERIFY → MAP EVIDENCE → VALIDATE → FREEZE ONLY AFTER GATES PASS.
+
+RECEIVE → REGISTER → WEB VERIFY → CLASSIFY FACT/INFERENCE/HYPOTHESIS → MAP EVIDENCE → RESOLVE CONFLICTS → VALIDATE → FREEZE ONLY AFTER GATES PASS.
