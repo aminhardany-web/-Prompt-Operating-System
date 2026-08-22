@@ -1,0 +1,23 @@
+{
+  "package_id": "UNIFIED-AI-OS-FINAL-001",
+  "version": "1.0",
+  "status": "SOURCE-PRESERVING / INTEGRATED / READY-FOR-RUNTIME-EVALUATION",
+  "source_corpus": {
+    "conversation_files": 5,
+    "conversations": 470,
+    "user_messages": 2972,
+    "source_manifest": [
+      {"file":"conversations-000.json","bytes":27738677,"sha256":"cd100797ef8826f6dcb6c1a3d2ebdfcb6e5f7c19a1dc69c8a423e1100d5897ed","conversations":100},
+      {"file":"conversations-001.json","bytes":2462863,"sha256":"f1c2ab9a4758f12afd93e0a6cd44c56659f8d12554d59ec53adfd61d619b4ae6","conversations":100},
+      {"file":"conversations-002.json","bytes":3425262,"sha256":"4eb2c9a3d56754be39fcef8ab0c81c975ceb1629028b4491e35aed67e665fbfd","conversations":100},
+      {"file":"conversations-003.json","bytes":37917886,"sha256":"cd61a2a191aa25e856824e2208bdf68f76d70f4afad45b57485534f876198b8e","conversations":100},
+      {"file":"conversations-004.json","bytes":41943861,"sha256":"9d83315845cd3d1b87747241d8828e587ac6ea7ce943e486a255d66333be5aa9","conversations":70}
+    ]
+  },
+  "prompt_corpus": {"master_index_records":530,"exact_source_records":509,"structural_records":21,"runtime_tested":0,"semantic_validated":0,"release_authorized":false},
+  "integration": {"primary_architecture":"EPKOS","runtime":"PKEA","prompt_control":"PROMPT-OS / Prompt Bank","conversation_catalog":"UNIFIED_CONVERSATION_CATALOG_v1.0.csv","prompt_registry":"UNIFIED_PROMPT_REGISTRY_METADATA_v1.0.csv","exact_source_corpus":"PROMPT_BANK_EXACT_SOURCE_v1.0.jsonl"},
+  "topic_counts": {"Law / Legal Education":399,"Procurement / Tender / Contracts":374,"Maritime / Port / Shipping Education":164,"PROMPT-OS / Prompt Bank":139,"Port Strategy 2045 / KD-003":58,"AI / Agents / LLM":44,"EPKOS / Knowledge Operating System":6,"General / Unclassified":5},
+  "engine_family_counts": {"Prompt-OS / Prompt Bank":443,"General / Domain Workflow":46,"PKEA / Evidence Runtime":24,"EPKOS Pure Knowledge Extraction Engine":17},
+  "rules": ["SOURCE_CANONICAL is immutable","DERIVED_OPTIMIZED requires parent lineage","No prompt promotion from mention/summary alone","LLM extraction is advisory; evidence validation is deterministic","Historical artifacts are preserved and stale manifests are not current truth"],
+  "known_limits": ["Global semantic recall is not proven","Project/file/folder linkage is only partially proven from the corpus","Prompt runtime status for the 530-record master index is NOT_TESTED","EPKOS evidence closure remains open until raw conversation exports are available to the closure engine"]
+}
