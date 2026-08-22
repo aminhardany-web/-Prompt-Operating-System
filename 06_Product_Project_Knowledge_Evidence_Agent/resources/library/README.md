@@ -5,7 +5,9 @@ This directory contains a controlled, evidence-preserving import of selected Cha
 Rules:
 - Imported source text is preserved verbatim.
 - The repository copy is a product test corpus, not an automatic EPKOS canonicalization step.
-- Each source is tracked in `LIBRARY_SOURCE_MANIFEST.json` with its Library file ID, version, SHA-256 and import status.
+- `LIBRARY_SOURCE_MANIFEST.json` records the local imported snapshot and its provenance.
+- `UPSTREAM_EPKOS_LIBRARY_MANIFEST_2026-08-21.json` pins the authoritative upstream source manifest from `aminhardany-web/EPKOS-Final-`.
+- A local snapshot must not be treated as current merely because it exists in this repository.
 - Historical versions are not silently merged.
 - PKEA may analyze these resources, but human validation remains required before any finding can become authoritative knowledge.
 
