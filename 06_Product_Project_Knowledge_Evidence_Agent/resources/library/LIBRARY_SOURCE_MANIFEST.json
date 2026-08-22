@@ -1,0 +1,82 @@
+{
+  "schema_version": "0.1",
+  "purpose": "Controlled manifest of ChatGPT Library sources used by PKEA",
+  "import_policy": "verbatim-preserve; no silent canonicalization",
+  "sources": [
+    {
+      "library_file_id": "file_00000000d008822fa1d7ce4397cf6131",
+      "name": "EPKOS-FINAL-SYSTEM-OPERATING-SPEC-Word-Ready.docx",
+      "version_id": "1",
+      "sha256": "69643a284b46786f2b8947227b8e5ee103909fea39c770f479f8fbdb74155fe6",
+      "status": "IMPORTED_BINARY_SOURCE_PENDING_TEXT_EXTRACTOR"
+    },
+    {
+      "library_file_id": "file_0000000005c88243b59713d73900a5db",
+      "name": "EPKOS_FINAL_EXECUTABLE_RELEASE_PACKAGE_v1.0.md",
+      "version_id": "1",
+      "sha256": "3653c13de4b5e96fb69269b5f1aa14f9c35b757f0643ec189e0accc94e495267",
+      "repo_path": "resources/library/EPKOS_FINAL_EXECUTABLE_RELEASE_PACKAGE_v1.0.md",
+      "status": "IMPORTED"
+    },
+    {
+      "library_file_id": "file_00000000c52481f4b981359223cfb22d",
+      "name": "EPKOS_FINAL_EVIDENCE_AUDIT_RELEASE_DECISION_v2.0.md",
+      "version_id": "1",
+      "sha256": "397800253c431ed1b6b0ee0aee4c8f579a0836646882e531b9e84dcd8e9b0f81",
+      "repo_path": "resources/library/EPKOS_FINAL_EVIDENCE_AUDIT_RELEASE_DECISION_v2.0.md",
+      "status": "IMPORTED"
+    },
+    {
+      "library_file_id": "file_00000000eec081f4b1e984e6e4ac1135",
+      "name": "PROMPT_BANK_FINAL_CONTROLLED_SPEC_v2.0.md",
+      "version_id": "1",
+      "sha256": "1811fd03215624b4b73331b62fac65c164ea8617598ed2d4b5ccca88e8acf7ed",
+      "repo_path": "resources/library/PROMPT_BANK_FINAL_CONTROLLED_SPEC_v2.0.md",
+      "status": "IMPORTED"
+    },
+    {
+      "library_file_id": "file_00000000045482438175e98225a4714d",
+      "name": "PROMPT-BANK-001-v1.0-FINAL.md",
+      "version_id": "1",
+      "sha256": "a932d4cf91ed5de30e39a420b38896448cadccf1ac402e94681c3e34d496705f",
+      "repo_path": "resources/library/PROMPT-BANK-001-v1.0-FINAL.md",
+      "status": "IMPORTED"
+    },
+    {
+      "library_file_id": "file_0000000098a88246943749f06c4bfb89",
+      "name": "EPKOS_ChatGPT_Master_Index_v1.0.md",
+      "version_id": "1",
+      "status": "SELECTED_FOR_NEXT_IMPORT"
+    },
+    {
+      "library_file_id": "file_000000007374821182ca0e0d2472e3f2",
+      "name": "EPKOS_PROJECT_TRANSFER_BASELINE.md",
+      "version_id": "1",
+      "status": "SELECTED_FOR_NEXT_IMPORT"
+    },
+    {
+      "library_file_id": "file_000000008f3882468d22f7d1c955ee11",
+      "name": "EPKOS_GAP_CLOSURE_001_Evidence_Intake_Matrix_v2.0.csv",
+      "version_id": "1",
+      "status": "SELECTED_FOR_NEXT_IMPORT"
+    },
+    {
+      "library_file_id": "file_000000001884821188d6dad96808177d",
+      "name": "EPKOS_Persistent_Evidence_Register_v1.0.csv",
+      "version_id": "1",
+      "status": "SELECTED_FOR_NEXT_IMPORT"
+    },
+    {
+      "library_file_id": "file_00000000006882469c8e3576074a95f4",
+      "name": "EPKOS_Persistent_Evidence_Register_v1.0.jsonl",
+      "version_id": "1",
+      "status": "SELECTED_FOR_NEXT_IMPORT"
+    },
+    {
+      "library_file_id": "file_00000000eb4c81f8af2f80e5470b9a9f",
+      "name": "PROMPT_BANK_FINAL_CANONICAL_v3.0.jsonl",
+      "version_id": "1",
+      "status": "SELECTED_FOR_NEXT_IMPORT"
+    }
+  ]
+}

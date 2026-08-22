@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "project-knowledge-evidence-agent"
+version = "0.2.0"
+description = "Evidence-first project knowledge extraction and audit package"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+pkea = "pkea.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]

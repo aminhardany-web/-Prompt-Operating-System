@@ -1,0 +1,10 @@
+{
+  "expected_documents": 2,
+  "expected_claims": 5,
+  "expected_conflicts": 1,
+  "expected_claim_types": {
+    "decision": 3,
+    "requirement": 1,
+    "risk": 1
+  }
+}
