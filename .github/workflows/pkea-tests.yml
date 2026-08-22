@@ -30,3 +30,19 @@ jobs:
       - name: Run imported Library corpus evaluation
         working-directory: 06_Product_Project_Knowledge_Evidence_Agent
         run: python evaluation/run_library_eval.py
+      - name: Run real PKEA CLI against the complete repository Library corpus
+        working-directory: 06_Product_Project_Knowledge_Evidence_Agent
+        run: |
+          rm -rf /tmp/pkea-real-library
+          python -m pkea.cli run ./resources/library --output /tmp/pkea-real-library
+          test -s /tmp/pkea-real-library/document_registry.json
+          test -s /tmp/pkea-real-library/analysis.json
+          test -s /tmp/pkea-real-library/report.md
+          test -s /tmp/pkea-real-library/run_summary.json
+      - name: Upload real-library execution artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pkea-real-library-execution
+          path: /tmp/pkea-real-library
+          if-no-files-found: warn
