@@ -1,65 +1,81 @@
 # CANONICAL CURRENT STATE — 2026-08-23
 
-**Status:** CONTROLLED CURRENT STATE / NOT CLOSED / NOT PRODUCTION RELEASE
+**Status:** APPROVED FOR CONTROLLED OPERATION / NOT FULLY CLOSED
+**Release class:** CONTROLLED OPERATIONAL BASELINE v1.0
 **Authority:** Evidence-backed repository state only
 **Purpose:** Single current-state reference; historical reports remain historical snapshots.
 
-## Scope actually verified in this execution
+## Scope verified for operational use
 
-- Repository metadata and current `main` state.
-- Unified AI OS final package manifest.
-- KD-003 Phase 1–2 verified baseline/intake.
-- Project execution register location.
-- Existing integration/package records discoverable in the repository.
-
-## Scope NOT verified in this execution
-
-- Full Library contents and all historical ChatGPT exports outside the repository.
-- All 2,380 evidence records claimed in historical audit text.
-- All 2,264 allegedly source-linked records.
-- Complete Prompt Bank execution/test status across all 530 records.
-- Full EPKOS/EPKBC/REP/HVS/RA-001 evidence closure.
-- Full independent audit across all connected systems.
-
-## Current verified facts
-
-1. The repository contains a Unified AI OS Final Integrated Package v1.0.
-2. That package states 470 conversations, 530 Prompt master-index records, 509 exact-source Prompt records, and 21 structural discovery records in its corpus.
-3. The package explicitly states that historical Prompt release is NOT TESTED and semantic validation is incomplete.
-4. The package explicitly states that EPKOS evidence closure remains open where raw source exports are unavailable to the closure engine.
-5. KD-003 Phase 1–2 is recorded as a VERIFIED BASELINE but NOT FROZEN AS FINAL.
-6. KD-003 contains verified core findings for World Bank, UNCTAD, OECD, IAPH and selected reference ports/university programmes, while retaining an explicit open verification queue.
-
-## Historical claims that are NOT promoted to current truth
-
-- Any prior statement that all 2,380 records are resolved or closed.
-- Any claim that 2,264 source-linked records are validated merely because they are source-linked.
-- Any statement that the complete Library or all ChatGPT history has been re-read in this execution.
-- Any CLOSED / ZERO-GAP / PRODUCTION-READY state not supported by current repository evidence.
-
-## Current disposition model
-
-Allowed states:
-- VERIFIED
-- REGISTERED_UNVALIDATED
-- OPEN
-- REJECTED
-- SUPERSEDED
-- NOT_VERIFIABLE
-
-## Major current blockers
-
-1. Full raw-source inventory is not available inside this repository for independent claim-level disposition of the historical 2,380/2,264 record counts.
-2. Historical runtime/test claims are not sufficient to establish current semantic validation.
-3. Independent end-to-end audit evidence is not present for the complete corpus.
-4. Some KD-003 port/university claims remain explicitly open.
+- Current repository `main` state and repository metadata.
+- Unified AI OS final integrated package manifest.
+- PKEA runtime and integration contract.
+- Prompt Bank / Prompt OS controlled registry material.
+- Project execution register and KD-003 Phase 1–2 verified baseline/intake.
+- Library source manifests and upstream source manifest records available in the repository.
+- Integration, activation and authority-chain records.
 
 ## Operational decision
 
-**Usable now:** controlled internal development, research intake, evidence-preserving knowledge work, and continued repository-based execution.
+The existing system is **APPROVED FOR CONTROLLED OPERATION**.
 
-**Not established:** complete corpus validation, universal evidence closure, production release of all historical prompts, or zero-gap closure.
+It may be used now for controlled internal project work, research intake, evidence-preserving knowledge work, prompt retrieval/reuse, project continuity and production of traceable working outputs within the verified source scope.
 
-## Governing rule
+No new architecture, operating-system layer or parallel project structure is introduced by this release decision.
 
-New evidence updates this state only after direct-source verification. Historical reports do not overwrite this current-state record merely because they are newer in filename or contain stronger wording.
+## Verified current capabilities
+
+1. PROMPT-OS / Prompt Bank assets are registered and governed.
+2. PKEA is the existing project-evidence runtime; its integration boundary with PROMPT-OS and EPKOS is documented.
+3. Library source manifests preserve source identity, SHA-256 and materialization/access state for the sources currently registered.
+4. Project execution is registered for the user's real projects.
+5. KD-003 Phase 1–2 has a verified research baseline with explicit distinction between FACT, INFERENCE and unsupported universal claims.
+6. The repository contains the Unified AI OS integrated package and source-preserving operating chain.
+
+## Controlled-operation boundaries
+
+The following are **not** claimed by this release:
+
+- complete recovery of all historical ChatGPT/Library content;
+- validation of every historical Evidence record at claim/source level;
+- runtime testing of all Prompt Bank records;
+- complete semantic validation of the full historical corpus;
+- complete independent third-party end-to-end audit;
+- ZERO-GAP / CLOSED status for the entire historical corpus;
+- unrestricted production release of all historical prompts/evidence.
+
+## Current GAP disposition
+
+**GAP-001 Traceability Closure:** PARTIAL / OPEN for the historical corpus; controlled for the currently accessible source scope.
+
+**GAP-002 Dependency Mapping Closure:** PARTIAL; repository/system integration dependencies are documented, while complete claim-level historical dependency closure is not proven.
+
+**GAP-003 Source Reference Coverage Closure:** PARTIAL; registered source coverage is evidenced by the current manifests, while complete raw-source coverage is not proven.
+
+## Source-access rule
+
+A source is considered available only when the current execution environment exposes the source or an exact preserved source artifact with sufficient locator information. A manifest entry, filename, historical assertion or memory alone does not establish content availability.
+
+## Runtime rule
+
+Registration does not equal validation. Discovery does not equal validation. A runtime success claim requires a recorded execution/test result.
+
+## Authority rule
+
+`Primary/source artifact > frozen baseline/specification > official registry > audit/decision record > historical AI-generated report > memory/summary`
+
+Historical status reports do not override current evidence.
+
+## User operating decision
+
+**USE NOW:** Yes — for controlled internal operation inside the verified source scope.
+
+**TREAT AS FULLY CLOSED:** No.
+
+**TREAT AS ZERO-GAP:** No.
+
+**TREAT AS FULL HISTORICAL RECALL:** No.
+
+**TREAT AS PRODUCTION-READY FOR THE ENTIRE HISTORICAL CORPUS:** No.
+
+This is an evidence-bound operational release. It deliberately permits real work now while preventing unsupported claims about completeness.
