@@ -1,0 +1,23 @@
+{
+  "schema": "pkea-source-registry/v1",
+  "generated": "2026-08-21",
+  "source_repository": "aminhardany-web/EPKOS-Final-",
+  "source_path": "data/inbox/library/CHATGPT_LIBRARY_SOURCE_MANIFEST_2026-08-21.json",
+  "authority": "SOURCE_ONLY",
+  "canonicalization": "PROHIBITED_BY_IMPORT",
+  "records": [
+    {"library_file_id":"file_00000000d008822fa1d7ce4397cf6131","name":"EPKOS-FINAL-SYSTEM-OPERATING-SPEC-Word-Ready.docx","version_id":"1","sha256":"69643a284b46786f2b8947227b8e5ee103909fea39c770f479f8fbdb74155fe6","bytes":45648,"materialization":"RAW_AVAILABLE"},
+    {"library_file_id":"file_000000005cd881f9809ae7837947aacc","name":"EPKOS_Final_System.md","version_id":"1","sha256":"c1dfdc712d010ece795ff87b6b4ad3c6c51aa311264906c5cb166c095c4964c6","bytes":15475,"materialization":"RAW_AVAILABLE"},
+    {"library_file_id":"file_000000008e9881f48b578ae4e8c4a3ad","name":"EPKOS_FINAL_OPERATIONAL_RELEASE_CANDIDATE_v1.0.md","version_id":"1","sha256":"93890adc8e2e7d99c21abec4418cfd7bad32a505df0266791817acd54fba3de1","bytes":7832,"materialization":"RAW_AVAILABLE"},
+    {"library_file_id":"file_00000000855881f480df6ba7f6e61f64","name":"EPKOS-GAP-CLOSURE-001_Evidence_Reconciliation_2026-08-14.md","version_id":"1","sha256":"0cc689a3e8e2eea8b0d4d808ebdf207f15d5bf0dc0fa73582cf8ebcfa2b553da","bytes":5860,"materialization":"RAW_AVAILABLE"},
+    {"library_file_id":"file_0000000090188211b06ef8a4caef4583","name":"EPKOS-GAP-CLOSURE-001_AUDIT_READY_EXECUTION_PACKAGE_v2.0.md","version_id":"1","sha256":"5fee4f5a0cdc5102125bf6fca00890f72ab79deb8c4a4ea7076f56fc79d0ac31","bytes":5076,"materialization":"RAW_AVAILABLE"},
+    {"library_file_id":"file_00000000006882469c8e3576074a95f4","name":"EPKOS_Persistent_Evidence_Register_v1.0.jsonl","version_id":"1","sha256":"127a079dab6eb29fa3bded8551d5d5791cc4eed604658ec5b2a7d0a1a961a183","bytes":3043690,"materialization":"RAW_AVAILABLE"},
+    {"library_file_id":"file_0000000097f08246b93f4c20cec6e41c","name":"EPKOS_ChatGPT_FULL_EVIDENCE_REGISTER_v1.0.csv","version_id":"1","sha256":"da621fb0146200ac2c0735db59f93055348393997b9c21f6fb36e2e087d381e1","bytes":2150064,"materialization":"RAW_AVAILABLE"},
+    {"library_file_id":"file_0000000098a88246943749f06c4bfb89","name":"EPKOS_ChatGPT_Master_Index_v1.0.md","version_id":"1","sha256":"8c5182082ac828ea444204df9443c95cc370c08a67501de5e8b3569baea3f068","bytes":99368,"materialization":"RAW_AVAILABLE"},
+    {"library_file_id":"file_00000000937c820a98d26c3ccbae39ab","name":"PROMPT-BANK-OS-v1.0-FINAL.md","version_id":"1","sha256":"3504752b8cc0c96c1d7f2b885b4a51f43522813a93879e68ebd9a1f4012d8577","bytes":18032,"materialization":"RAW_AVAILABLE"},
+    {"library_file_id":"file_000000007374821182ca0e0d2472e3f2","name":"EPKOS_PROJECT_TRANSFER_BASELINE.md","version_id":"1","sha256":"bba2b63ad74ef9ba6cf51951c23a58d5b6e7a20d9b8eb9337fb4d1dcf067b6a6","bytes":4113,"materialization":"RAW_AVAILABLE"},
+    {"library_file_id":"file_00000000bc548246ae7a6edcfb3fc02a","name":"EPKOS_FINAL_EXECUTABLE_RELEASE_PACKAGE_v1.0.md","version_id":"1","sha256":"3653c13de4b5e96fb69269b5f1aa14f9c35b757f0643ec189e0accc94e495267","bytes":9524,"materialization":"RAW_NOT_AVAILABLE_VIA_CONNECTOR"},
+    {"library_file_id":"file_000000008f3882468d22f7d1c955ee11","name":"EPKOS_GAP_CLOSURE_001_Evidence_Intake_Matrix_v2.0.csv","version_id":"1","sha256":"5199d425dd1a1dd3672016d82b8929e0a90b0997ef2716168aac6b694b1b9790","bytes":445141,"materialization":"RAW_AVAILABLE"},
+    {"library_file_id":"file_00000000e7a081f4a65245baa68371fc","name":"دستورالعمل_اجرایی_HVS_HWP_پروژه_فکر_کن(1).md","version_id":"1","materialization":"RAW_NOT_AVAILABLE_VIA_CONNECTOR"}
+  ]
+}
