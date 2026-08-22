@@ -26,6 +26,16 @@ python -m pkea.cli run ./sample_project --output ./workspace --llm openai
 
 The command stops on an execution error rather than silently producing a partial success. Results are written to `document_registry.json`, `analysis.json`, `report.md`, and `run_summary.json`.
 
+## Unified AI OS integration
+
+The final source-preserving integration package is registered at:
+
+`08_Unified_AI_OS_Final_Package/`
+
+It links the five-file ChatGPT archive, the 530-record Prompt master index, the 509 exact-source Prompt corpus, EPKOS governance, PROMPT-OS/Prompt Bank control, and the PKEA runtime without rewriting historical source prompts.
+
+The package contains the consolidated Manifest, conversation catalog and Prompt metadata registry. The exact source Prompt corpus remains preserved in the controlled Library source package.
+
 ## Product boundary
 
 PKEA is an evidence-first runtime. It does not silently turn model output into authoritative knowledge.
@@ -49,7 +59,7 @@ PKEA is an evidence-first runtime. It does not silently turn model output into a
 9. Create evidence gaps for findings awaiting validation.
 10. Record human validation decisions without rewriting the original evidence package.
 11. Produce JSON and Markdown audit artifacts.
-12. Run deterministic golden evaluation plus Library-corpus evaluation in CI.
+12. Run deterministic golden evaluation plus Library-corpus evaluation and real production CLI execution in CI.
 
 ## Manual subcommands
 
@@ -74,6 +84,7 @@ The LLM is not the evidence authority. Source text is.
 - Conflict resolution remains human-controlled.
 - Autonomous execution and multi-agent orchestration are explicitly deferred until evidence quality is validated on real projects.
 - The Library corpus is imported through a controlled manifest; imported sources do not become canonical automatically.
+- The unified historical Prompt corpus is source-preserved but runtime_status remains NOT_TESTED until prompt-level evaluations are executed.
 
 ## Architecture position
 
