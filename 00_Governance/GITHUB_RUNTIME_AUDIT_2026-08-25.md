@@ -11,7 +11,7 @@ GitHub login: `aminhardany-web`
 
 ## GitHub automation connection
 
-A GitHub App installation is currently active for the user account `aminhardany-web` (installation ID recorded by the connected integration). The connection is operational for repository, issue, pull-request, review, status and related events exposed by the integration. This is a real active integration; it is not a claim that a new custom GitHub App was created during this audit.
+A GitHub App installation is currently active for the user account `aminhardany-web` through the connected integration. This is a real active integration; it is not a claim that a new custom GitHub App was created during this audit.
 
 ## Repository inventory verified
 
@@ -23,30 +23,42 @@ A GitHub App installation is currently active for the user account `aminhardany-
 - `aminhardany-web/EPKOS-Final-` — private governance/knowledge repository.
 - `aminhardany-web/Evidence-Source-Matrix-v1.1` — public, empty.
 - `aminhardany-web/Evidence-Source-Matrix-` — private, empty.
-- `aminhardany-web/-Prompt-Operating-System` — public, operational PROMPT-OS/PKEA repository; main branch is the primary operational prompt/evidence runtime.
-- `aminhardany-web/OmniRoute` — public, large external/third-party codebase; default branch is `release/v3.8.50`.
+- `aminhardany-web/-Prompt-Operating-System` — public, operational PROMPT-OS/PKEA repository.
+- `aminhardany-web/OmniRoute` — public Fork of `diegosouzapw/OmniRoute`.
 
-## Immediate findings
+## Defect remediation record
 
-1. The canonical operational relationship is already documented: `AI-Prompt-OS` is a compatibility boundary and `-Prompt-Operating-System` is the operational source of truth.
-2. `EPKOS-Final-` explicitly keeps canonicalization behind human validation and audit gates.
-3. `chat-gpt-amin` documents that full automatic GitHub/ChatGPT history loading is not claimed and that end-to-end runtime activation must be proven by a real test.
-4. `chat-gpt-amin` has active CI for Python tests and a separate web check.
-5. `-Prompt-Operating-System` has governance and PKEA CI workflows, but the latest commit checked on 2026-08-25 had no pull-request workflow run returned for that commit. This means current runtime verification is not yet proven by that observation alone.
-6. The repository list contains two empty Evidence-Source-Matrix repositories. They should not be treated as authoritative sources until populated and explicitly designated.
-7. No evidence was found in the checked repository search that an OpenAI API secret had been committed; the `sk-` search hit was a documentation keyword occurrence, not a credential. This is not a substitute for GitHub Secret Protection/secret scanning verification.
-8. A GitHub App installation is active for the account through the connected integration. No separate custom bot/App was created during this audit, and no fictitious registration is recorded.
+### GOV-001 — Governance gate false-positive
 
-## Immediate operating rule
+Observed: the existing governance workflow failed on run `32781730995` at `Reject unsupported completion claims` while the repository contained a legitimate policy stating that zero runtime tests block production release. The failure was caused by an over-broad text pattern in the gate, not by an actual unauthorized production claim.
 
-Use `aminhardany-web/-Prompt-Operating-System` as the operational PROMPT-OS/PKEA source, `aminhardany-web/EPKOS-Final-` as the durable EPKOS governance boundary, and `aminhardany-web/chat-gpt-amin` as the ChatGPT-facing maritime knowledge module. `aminhardany-web/AI-Prompt-OS` remains a compatibility boundary, not a second source of truth.
+Remediation applied: the gate was changed to detect affirmative `Production Release = AUTHORIZED` claims rather than treating the policy phrase `Production Release = NOT AUTHORIZED` as a violation. The workflow now has explicit read-only permissions.
 
-Do not declare full runtime activation, zero-gap status, or complete repository security merely from repository metadata. Those claims require actual tests and GitHub security-setting verification.
+Remediation commit: `51e0c73e233c19fb126b231b2f20716d9c825f82`.
 
-## Next controlled actions
+Verification status: PENDING fresh GitHub Actions execution for the remediation commit. No PASS is claimed until the real run is observed.
 
-- Keep the current canonical boundaries unchanged.
-- Verify CI on the canonical operational repository using a real PR/push run.
-- Review repository security settings (Secret Protection/secret scanning, Dependabot, code scanning) before declaring security closure.
-- Do not delete, merge, rename, archive, or redesign repositories during this audit without a separate explicit authorization.
-- Do not create a second custom GitHub App/bot unless a separate requirement is established and the necessary creation/installation capability is intentionally used.
+### GOV-002 — Evidence-first execution lock
+
+The repository now contains `00_Governance/EXECUTION_LOCK_EVIDENCE_FIRST_2026-08-25.md` and Issue #6. These establish execution → verification → documentation and prohibit narrative-only closure.
+
+### GOV-003 — Closure tracking
+
+Issue #5 tracks all remaining remediation domains. It remains open until direct evidence closes each applicable item.
+
+## Remaining controlled verification domains
+
+- PROMPT-OS/PKEA real CI and runtime verification.
+- `chat-gpt-amin` end-to-end verification.
+- Repository Secret Protection/secret scanning, push protection, Dependabot and code-scanning settings.
+- Branch protection on canonical branches.
+- OmniRoute Fork CI/security/runtime verification and CodeQL setup consistency.
+- `data` repository content/security review.
+- `001-HUM-INT-` structure/security/dependency/workflow review.
+- Evidence-Source-Matrix canonical status.
+
+## Operating rule
+
+No item is considered resolved without direct GitHub/runtime evidence. If the available integration cannot perform a required check or change, record the exact BLOCKED condition rather than simulating completion.
+
+No full runtime activation, zero-gap status, production readiness, or complete security closure is asserted by this record.
