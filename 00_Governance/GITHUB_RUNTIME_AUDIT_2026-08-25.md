@@ -40,11 +40,23 @@ Verification status: PENDING fresh GitHub Actions execution for the remediation 
 
 ### GOV-002 — Evidence-first execution lock
 
-The repository now contains `00_Governance/EXECUTION_LOCK_EVIDENCE_FIRST_2026-08-25.md` and Issue #6. These establish execution → verification → documentation and prohibit narrative-only closure.
+The repository contains `00_Governance/EXECUTION_LOCK_EVIDENCE_FIRST_2026-08-25.md` and Issue #6. These establish execution → verification → documentation and prohibit narrative-only closure.
 
-### GOV-003 — Closure tracking
+### GOV-003 — PKEA runtime verification attempt
 
-Issue #5 tracks all remaining remediation domains. It remains open until direct evidence closes each applicable item.
+The existing `.github/workflows/pkea-tests.yml` was verified to contain unit tests, golden evaluation, imported Library evaluation, canonical sample-project CLI execution, complete Library-corpus CLI execution, artifact upload, and a `pull_request` trigger.
+
+Verification commit on `main`: `f889d4d2682c059aea1436e7524b3b50bad26d7f`.
+
+Because the connector's commit-run lookup only exposes pull-request-triggered runs, a dedicated verification branch and draft PR #8 were created. PR head commit: `07410d9791320b6dc7fbd827455ef2b391706087`.
+
+Direct GitHub verification for that PR head returned zero workflow runs and zero combined commit statuses. Therefore CI/runtime PASS is NOT proven. The item is recorded as BLOCKED/PENDING runtime evidence rather than closed.
+
+Evidence record: Issue #5 comment added with the exact commits and verification result.
+
+### GOV-004 — Closure tracking
+
+Issue #5 remains open until direct evidence closes each applicable domain.
 
 ## Remaining controlled verification domains
 
