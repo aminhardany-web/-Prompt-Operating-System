@@ -17,12 +17,15 @@ on:
       - '00_Governance/**'
       - '01_Prompt_Library/**'
       - '02_Operations/**'
-      - '03_Knowledge_Recovery/**'
+      - '03_Projects/**'
       - '04_Projects/**'
       - '06_Product_Project_Knowledge_Evidence_Agent/**'
       - '07_System_Integration/**'
       - '.github/workflows/governance-gates.yml'
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   governance:
@@ -34,9 +37,15 @@ jobs:
           test -s 02_Operations/PORTFOLIO_CONTROL.md
           test -s 02_Operations/PROMPT_RUNTIME_GATE.md
           test -s 06_Product_Project_Knowledge_Evidence_Agent/FINAL_OPERATIONAL_BASELINE.md
-      - name: Reject unsupported completion claims
+      - name: Reject unsupported production authorization claims
+        shell: bash
         run: |
-          if grep -RniE 'Runtime Test *= *0.*PRODUCTION|PRODUCTION.*Runtime Test *= *0' 01_Prompt_Library 02_Operations 04_Projects 2>/dev/null; then
+          set -euo pipefail
+          if grep -RniE 'Runtime Test *= *[1-9][0-9]*.*Production Release *= *AUTHORIZED|Production Release *= *AUTHORIZED.*Runtime Test *= *[1-9][0-9]*' 01_Prompt_Library 02_Operations 04_Projects 2>/dev/null; then
+            echo 'Production authorization must not be asserted from runtime-test counts alone.'
+            exit 1
+          fi
+          if grep -RniE 'Runtime Test *= *0.*Production Release *= *AUTHORIZED|Production Release *= *AUTHORIZED.*Runtime Test *= *0' 01_Prompt_Library 02_Operations 04_Projects 2>/dev/null; then
             echo 'Production authorization conflicts with zero runtime testing.'
             exit 1
           fi
