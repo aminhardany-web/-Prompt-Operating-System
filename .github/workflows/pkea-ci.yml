@@ -7,12 +7,18 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   verify:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - name: Install PKEA
@@ -31,12 +37,4 @@ jobs:
           test -s "$tmp/workspace/analysis.json"
           test -s "$tmp/workspace/report.md"
           test -s "$tmp/workspace/run_summary.json"
-          python - <<'PY' "$tmp/workspace"
-import json, pathlib, sys
-p = pathlib.Path(sys.argv[1])
-analysis = json.loads((p / 'analysis.json').read_text(encoding='utf-8'))
-summary = json.loads((p / 'run_summary.json').read_text(encoding='utf-8'))
-assert analysis['controls']['human_gate_required'] is True
-assert analysis['controls']['analysis_source'] == 'INGESTED_SNAPSHOT'
-assert summary['status'] == 'COMPLETED'
-PY
+          python -c 'import json, pathlib, sys; p=pathlib.Path(sys.argv[1]); analysis=json.loads((p/"analysis.json").read_text(encoding="utf-8")); summary=json.loads((p/"run_summary.json").read_text(encoding="utf-8")); assert analysis["controls"]["human_gate_required"] is True; assert analysis["controls"]["analysis_source"] == "INGESTED_SNAPSHOT"; assert summary["status"] == "COMPLETED"' "$tmp/workspace"
