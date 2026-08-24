@@ -17,7 +17,7 @@ on:
       - '00_Governance/**'
       - '01_Prompt_Library/**'
       - '02_Operations/**'
-      - '03_Projects/**'
+      - '03_Knowledge_Recovery/**'
       - '04_Projects/**'
       - '06_Product_Project_Knowledge_Evidence_Agent/**'
       - '07_System_Integration/**'
