@@ -14,6 +14,7 @@ on:
       - '.github/workflows/pkea-tests.yml'
   workflow_dispatch:
 
+# Evidence-first execution: a real run is required before CI closure is claimed.
 jobs:
   test:
     runs-on: ubuntu-latest
