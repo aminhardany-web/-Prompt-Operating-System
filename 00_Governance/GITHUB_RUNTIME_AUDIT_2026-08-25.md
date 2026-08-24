@@ -9,6 +9,10 @@ Constraint: No new system architecture, product expansion, or broad redesign is 
 
 GitHub login: `aminhardany-web`
 
+## GitHub automation connection
+
+A GitHub App installation is currently active for the user account `aminhardany-web` (installation ID recorded by the connected integration). The connection is operational for repository, issue, pull-request, review, status and related events exposed by the integration. This is a real active integration; it is not a claim that a new custom GitHub App was created during this audit.
+
 ## Repository inventory verified
 
 - `aminhardany-web/chat-gpt-amin` — private, main branch, active.
@@ -30,8 +34,8 @@ GitHub login: `aminhardany-web`
 4. `chat-gpt-amin` has active CI for Python tests and a separate web check.
 5. `-Prompt-Operating-System` has governance and PKEA CI workflows, but the latest commit checked on 2026-08-25 had no pull-request workflow run returned for that commit. This means current runtime verification is not yet proven by that observation alone.
 6. The repository list contains two empty Evidence-Source-Matrix repositories. They should not be treated as authoritative sources until populated and explicitly designated.
-7. No evidence was found in the checked repository search that an OpenAI API secret had been committed; the `sk-` search hit was a documentation keyword occurrence, not a credential.
-8. A real GitHub App/user bot registration is NOT claimed. The current connected GitHub integration is operational and has repository-admin capabilities, but the available control surface does not expose GitHub App creation/installation. Therefore no fictitious bot registration is recorded.
+7. No evidence was found in the checked repository search that an OpenAI API secret had been committed; the `sk-` search hit was a documentation keyword occurrence, not a credential. This is not a substitute for GitHub Secret Protection/secret scanning verification.
+8. A GitHub App installation is active for the account through the connected integration. No separate custom bot/App was created during this audit, and no fictitious registration is recorded.
 
 ## Immediate operating rule
 
@@ -45,4 +49,4 @@ Do not declare full runtime activation, zero-gap status, or complete repository 
 - Verify CI on the canonical operational repository using a real PR/push run.
 - Review repository security settings (Secret Protection/secret scanning, Dependabot, code scanning) before declaring security closure.
 - Do not delete, merge, rename, archive, or redesign repositories during this audit without a separate explicit authorization.
-- Do not create or claim a GitHub App/bot until the required GitHub App creation/installation capability is actually available.
+- Do not create a second custom GitHub App/bot unless a separate requirement is established and the necessary creation/installation capability is intentionally used.
