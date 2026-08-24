@@ -1,0 +1,19 @@
+name: Runtime Connectivity Smoke
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  connectivity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify runner
+        run: |
+          echo "GitHub Actions runner is operational."
+          test -n "$GITHUB_SHA"
+          test -n "$GITHUB_REPOSITORY"
