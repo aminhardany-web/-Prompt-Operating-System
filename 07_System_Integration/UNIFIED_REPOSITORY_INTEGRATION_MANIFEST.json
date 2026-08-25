@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "authority": "07_System_Integration/REPOSITORY_REGISTRY.md",
+  "integration_mode": "CONTROLLED_INTEROPERABILITY",
+  "source_of_truth": "aminhardany-web/-Prompt-Operating-System",
+  "no_physical_merge": true,
+  "repositories": [
+    {"repository":"aminhardany-web/-Prompt-Operating-System","role":"PRIMARY_RUNTIME","status":"INTEGRATED","adapter":"INTERNAL_PKEA"},
+    {"repository":"aminhardany-web/EPKOS-Final-","role":"GOVERNANCE_KNOWLEDGE","status":"CONTROLLED_BOUNDARY","adapter":"EPKOS_ADAPTER_REQUIRED"},
+    {"repository":"aminhardany-web/AI-Prompt-OS","role":"PROMPT_ASSETS","status":"CONTROLLED_BOUNDARY","adapter":"PROMPT_ASSET_ADAPTER_REQUIRED"},
+    {"repository":"aminhardany-web/Evidence-Source-Matrix-","role":"EVIDENCE_SOURCE_WORKSTREAM","status":"PENDING_EXTRACTION","adapter":"EVIDENCE_MATRIX_ADAPTER_REQUIRED"},
+    {"repository":"aminhardany-web/Evidence-Source-Matrix-v1.1","role":"EVIDENCE_SOURCE_WORKSTREAM_V1_1","status":"PENDING_EXTRACTION","adapter":"EVIDENCE_MATRIX_ADAPTER_REQUIRED"},
+    {"repository":"aminhardany-web/001-HUM-INT-","role":"SEPARATE_PROJECT","status":"ISOLATED","adapter":"PROJECT_ADAPTER_REQUIRED"},
+    {"repository":"aminhardany-web/chat-gpt-amin","role":"KNOWLEDGE_MODULE","status":"ISOLATED","adapter":"KNOWLEDGE_MODULE_ADAPTER_REQUIRED"},
+    {"repository":"aminhardany-web/data","role":"DATA_SOURCE","status":"PRESERVE_AND_EXTRACT","adapter":"DATA_ADAPTER_REQUIRED"},
+    {"repository":"aminhardany-web/desktop-tutorial","role":"TUTORIAL_SOURCE","status":"ISOLATED","adapter":"OPTIONAL_TUTORIAL_ADAPTER"},
+    {"repository":"aminhardany-web/OmniRoute","role":"FORKED_EXTERNAL_PROJECT","status":"VERSION_DRIFT_REVIEW","adapter":"EXTERNAL_PROJECT_ADAPTER_REQUIRED"}
+  ],
+  "pipeline": [
+    "DISCOVER",
+    "EXTRACT",
+    "REGISTER",
+    "TRACE",
+    "VALIDATE",
+    "PKEA_RUNTIME",
+    "HUMAN_REVIEW",
+    "EPKOS_CANONICALIZATION",
+    "AUDIT",
+    "RECOVERY"
+  ],
+  "rules": [
+    "No repository is authoritative merely because it is listed.",
+    "No source material is overwritten during integration.",
+    "No repository is deleted as part of integration.",
+    "External repositories remain isolated until adapter and evidence gates pass.",
+    "Integration status must be evidence-backed and fail closed."
+  ]
+}
