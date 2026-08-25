@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "mission": "FULL_PORTFOLIO_EVIDENCE_TO_PKEA_MAPPING",
+  "source_of_truth": "aminhardany-web/-Prompt-Operating-System",
+  "policy": "READ_ONLY_SOURCE_EXTRACTION_NO_SOURCE_OVERWRITE",
+  "mapping_status": "PARTIAL_BUT_VERIFIED",
+  "claims": [
+    {
+      "claim_id": "CLM-EPKOS-001",
+      "claim": "EPKOS defines a durable versioned knowledge/governance boundary and PKEA produces evidence candidates before canonicalization.",
+      "source_repository": "aminhardany-web/EPKOS-Final-",
+      "source_path": "01_Master Prompts/MASTER-PROJECT-GOVERNANCE-EVIDENCE-DRIVEN-EXECUTION.md",
+      "source_sha": "03e37c81ca80edf16b42cde60210e5e51418c256",
+      "evidence_type": "DIRECT_SOURCE_TEXT",
+      "pkea_link": "GOVERNANCE_KNOWLEDGE_BOUNDARY -> PKEA_RUNTIME -> HUMAN_REVIEW -> EPKOS_CANONICALIZATION",
+      "validation": "VERIFIED"
+    },
+    {
+      "claim_id": "CLM-PROMPT-001",
+      "claim": "AI-Prompt-OS contains a frozen extraction protocol requiring source-first, evidence-first, no guessing, preservation of conflicts and unknown states.",
+      "source_repository": "aminhardany-web/AI-Prompt-OS",
+      "source_path": "prompts/EPKOS-Project-Source-Extraction-Agent-Master-Prompt.md",
+      "source_sha": "5b2737e09c38e1ac00efaac848ebbfc2c29a7d02",
+      "evidence_type": "DIRECT_SOURCE_TEXT",
+      "pkea_link": "PROMPT_ASSET_BOUNDARY -> EXTRACT -> REGISTER -> TRACE -> VALIDATE",
+      "validation": "VERIFIED"
+    },
+    {
+      "claim_id": "CLM-CHAT-001",
+      "claim": "chat-gpt-amin defines a runtime retrieval path from mission and reference registry through relevant sources and current official verification to evidence-aware output.",
+      "source_repository": "aminhardany-web/chat-gpt-amin",
+      "source_path": "docs/RUNTIME_ENTRYPOINT.md",
+      "source_sha": "519affe605aa2d5198744677e5586d37a9f2e74a",
+      "evidence_type": "DIRECT_SOURCE_TEXT",
+      "pkea_link": "KNOWLEDGE_MODULE -> PKEA_EVIDENCE -> CURRENT_OFFICIAL_VERIFICATION -> OUTPUT",
+      "validation": "VERIFIED"
+    },
+    {
+      "claim_id": "CLM-DATA-001",
+      "claim": "data contains a controlled master index with governance, baseline, architecture, writing, evidence, prompt registry, knowledge engineering and execution layers.",
+      "source_repository": "aminhardany-web/data",
+      "source_path": "MASTER_INDEX.md",
+      "source_sha": "168c7837c36ad95ea958a345e4a1b3e3a2e3188f",
+      "evidence_type": "DIRECT_SOURCE_TEXT",
+      "pkea_link": "DATA_SOURCE -> PKEA_INGESTION -> SOURCE_REGISTRY -> EVIDENCE",
+      "validation": "VERIFIED"
+    },
+    {
+      "claim_id": "CLM-DATA-002",
+      "claim": "data contains source, decision, change and review registers that can serve as traceability inputs.",
+      "source_repository": "aminhardany-web/data",
+      "source_paths": [
+        "04_SOURCE_REGISTER/SOURCE_REGISTER.md",
+        "04_SOURCE_REGISTER/SOURCE_CATALOG.md",
+        "05_DECISION_REGISTER/DECISION_REGISTER.md",
+        "06_CHANGELOG/CHANGELOG.md",
+        "07_REVIEW_LOG/REVIEW_LOG.md"
+      ],
+      "evidence_type": "REPOSITORY_TREE_VERIFIED",
+      "pkea_link": "REGISTERS -> TRACE -> VALIDATE -> AUDIT",
+      "validation": "VERIFIED_PATHS"
+    }
+  ],
+  "unresolved": [
+    "Full byte-level extraction of all files in every private portfolio repository has not been proven inside GitHub Actions because the workflow token is repository-scoped.",
+    "001-HUM-INT- full content extraction remains open.",
+    "EPKOS-Final- full content extraction remains open beyond the verified files.",
+    "OmniRoute provenance/version alignment remains open.",
+    "Empty Evidence-Source-Matrix repositories have no source content to extract."
+  ],
+  "decision": "DO_NOT_CLAIM_END_TO_END_PASS_UNTIL_UNRESOLVED_ITEMS_ARE_CLOSED"
+}
