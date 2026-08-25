@@ -15,6 +15,7 @@ on:
   workflow_dispatch:
 
 # Evidence-first execution: a real run is required before CI closure is claimed.
+# Verification branch: force a pull_request event so the existing test path is observable.
 jobs:
   test:
     runs-on: ubuntu-latest
