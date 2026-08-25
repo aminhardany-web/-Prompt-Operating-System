@@ -15,12 +15,22 @@ on:
   workflow_dispatch:
 
 # Evidence-first execution: a real run is required before CI closure is claimed.
-# Verification branch: force a pull_request event so the existing test path is observable.
+# This workflow deliberately fails closed when the required runtime evidence is absent.
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Verify execution is running against the triggering commit
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$GITHUB_SHA"
+          printf 'Verified commit: %s\n' "$actual"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -41,6 +51,7 @@ jobs:
       - name: Run production CLI against canonical sample project
         working-directory: 06_Product_Project_Knowledge_Evidence_Agent
         run: |
+          set -euo pipefail
           rm -rf /tmp/pkea-sample
           python -m pkea.cli run ../sample_project --output /tmp/pkea-sample
           test -s /tmp/pkea-sample/document_registry.json
@@ -54,16 +65,30 @@ jobs:
           registry = json.loads((root / 'document_registry.json').read_text())
           analysis = json.loads((root / 'analysis.json').read_text())
           summary = json.loads((root / 'run_summary.json').read_text())
-          assert len(registry['documents']) >= 3
-          assert len(analysis['claims']) >= 4
+          documents = len(registry['documents'])
+          claims = len(analysis['claims'])
+          assert documents >= 3, documents
+          assert claims >= 4, claims
           assert all(c['evidence']['path'] and c['evidence']['line_start'] for c in analysis['claims'])
           assert analysis['controls']['analysis_source'] == 'INGESTED_SNAPSHOT'
           assert analysis['controls']['human_gate_required'] is True
           assert summary['status'] == 'COMPLETED'
+          evidence = {
+              'gate': 'PRODUCTION_CLI_SAMPLE',
+              'status': 'PASS',
+              'documents': documents,
+              'claims': claims,
+              'run_status': summary['status'],
+              'analysis_source': analysis['controls']['analysis_source'],
+              'human_gate_required': analysis['controls']['human_gate_required'],
+          }
+          (root / 'verification_evidence.json').write_text(json.dumps(evidence, indent=2) + '\n', encoding='utf-8')
+          print(json.dumps(evidence, indent=2))
           PY
       - name: Run real PKEA CLI against the complete repository Library corpus
         working-directory: 06_Product_Project_Knowledge_Evidence_Agent
         run: |
+          set -euo pipefail
           rm -rf /tmp/pkea-real-library
           python -m pkea.cli run ./resources/library --output /tmp/pkea-real-library
           test -s /tmp/pkea-real-library/document_registry.json
@@ -77,12 +102,26 @@ jobs:
           registry = json.loads((root / 'document_registry.json').read_text())
           analysis = json.loads((root / 'analysis.json').read_text())
           summary = json.loads((root / 'run_summary.json').read_text())
-          assert len(registry['documents']) >= 4
+          documents = len(registry['documents'])
+          claims = len(analysis['claims'])
+          assert documents >= 4, documents
           assert all(c['evidence']['path'] and c['evidence']['line_start'] for c in analysis['claims'])
           assert analysis['controls']['analysis_source'] == 'INGESTED_SNAPSHOT'
           assert analysis['controls']['human_gate_required'] is True
           assert analysis['controls']['canonicalization'] == 'PROHIBITED_IN_MVP'
           assert summary['status'] == 'COMPLETED'
+          evidence = {
+              'gate': 'COMPLETE_REPOSITORY_LIBRARY_CORPUS',
+              'status': 'PASS',
+              'documents': documents,
+              'claims': claims,
+              'run_status': summary['status'],
+              'analysis_source': analysis['controls']['analysis_source'],
+              'human_gate_required': analysis['controls']['human_gate_required'],
+              'canonicalization': analysis['controls']['canonicalization'],
+          }
+          (root / 'verification_evidence.json').write_text(json.dumps(evidence, indent=2) + '\n', encoding='utf-8')
+          print(json.dumps(evidence, indent=2))
           PY
       - name: Upload production execution artifacts
         if: always()
@@ -92,4 +131,4 @@ jobs:
           path: |
             /tmp/pkea-sample
             /tmp/pkea-real-library
-          if-no-files-found: warn
+          if-no-files-found: error
