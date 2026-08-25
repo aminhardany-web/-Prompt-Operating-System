@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "inventory_method": "GitHub_TREE_API_PLUS_DIRECT_FILE_EXTRACTION",
+  "inventory_date": "2026-08-25",
+  "no_delete": true,
+  "repositories": [
+    {
+      "repository": "aminhardany-web/-Prompt-Operating-System",
+      "ref": "main",
+      "tree_sha": "255b37c4b3be7f4b44ddc3bcaf816336bdedf0a9",
+      "inventory_status": "VERIFIED",
+      "evidence_files": ["07_System_Integration/UNIFIED_REPOSITORY_INTEGRATION_MANIFEST.json","07_System_Integration/REPOSITORY_EXTRACTION_EVIDENCE.json","07_System_Integration/PORTFOLIO_EVIDENCE_CLAIM_MAP.json"]
+    },
+    {
+      "repository": "aminhardany-web/EPKOS-Final-",
+      "ref": "main",
+      "tree_sha": "85ccb73367e1ffff493f1836e20ed58bbcd70aeb",
+      "inventory_status": "TREE_VERIFIED_TARGETED_CONTENT_EXTRACTED",
+      "evidence_files": ["README.md","01_Master Prompts/MASTER-PROJECT-GOVERNANCE-EVIDENCE-DRIVEN-EXECUTION.md","PROJECT_BASELINE.md","CLOSURE_GATE.md","runtime/ingest.py","runtime/validate.py","runtime/canonicalize.py","data/inbox/library/CHATGPT_LIBRARY_SOURCE_MANIFEST_2026-08-21.json"]
+    },
+    {
+      "repository": "aminhardany-web/AI-Prompt-OS",
+      "ref": "main",
+      "tree_sha": "44a71460e5218566e5b1422c04a42c6b25391fbd",
+      "inventory_status": "TREE_COMPLETE_VERIFIED_TARGETED_CONTENT_EXTRACTED",
+      "evidence_files": ["README.md","01_Master_Prompts/EKRP-002_Enterprise_Knowledge_Research_Publication_Engine_v2.0.md","01_Master_Prompts/EKRP-002-DUPLICATE_Enterprise_Knowledge_Research_Publication_Engine_v2.0.md","01_Master_Prompts/MPG-EDE-001_MASTER_PROJECT_GOVERNANCE_EVIDENCE_DRIVEN_EXECUTION.md","prompts/EPKOS-Project-Source-Extraction-Agent-Master-Prompt.md","prompts/EPKOS-Project-Source-State-Extraction-Engine-V2.0.md","prompt-bank/PROMPT_BANK_FINAL_CONTROLLED_SPEC_v2.0.md"]
+    },
+    {
+      "repository": "aminhardany-web/chat-gpt-amin",
+      "ref": "main",
+      "tree_sha": "70e515e6634df2bc732e674c7dda8f4b7901aff1",
+      "inventory_status": "TREE_COMPLETE_VERIFIED_TARGETED_CONTENT_EXTRACTED",
+      "evidence_files": ["README.md","PROMPT.md","docs/RUNTIME_ENTRYPOINT.md","docs/INTEGRATION_STATUS.md","docs/REFERENCE_REGISTRY.md","docs/KNOWLEDGE_MISSION.md","chat_gpt_amin/engine.py","chat_gpt_amin/cli.py","tests/test_engine.py"]
+    },
+    {
+      "repository": "aminhardany-web/data",
+      "ref": "main",
+      "tree_sha": "fbad82caf21c98ebed568fb447d9f54c0e8894e3",
+      "inventory_status": "TREE_VERIFIED_TARGETED_CONTENT_EXTRACTED",
+      "evidence_files": ["MASTER_INDEX.md","04_SOURCE_REGISTER/SOURCE_REGISTER.md","04_SOURCE_REGISTER/SOURCE_CATALOG.md","05_DECISION_REGISTER/DECISION_REGISTER.md","06_CHANGELOG/CHANGELOG.md","07_REVIEW_LOG/REVIEW_LOG.md","03_STYLE_GUIDE/FARSI_WRITING_GUIDE.md"]
+    },
+    {
+      "repository": "aminhardany-web/001-HUM-INT-",
+      "ref": "main",
+      "tree_sha": "c9093b1b85bfa8a3f04bf4fe081586168d6ec357",
+      "inventory_status": "TREE_VERIFIED_LARGE_SOURCE_TARGETED_CONTENT_EXTRACTED",
+      "evidence_files": ["README.md","Evidence-Register.md","Decision-Register.md","Change-Log.md","Projects/Containerization-Encyclopedia/Evidence-Register.md","Projects/Containerization-Encyclopedia/RAW-ARCHIVE-INDEX.md"]
+    },
+    {
+      "repository": "aminhardany-web/OmniRoute",
+      "ref": "release/v3.8.50",
+      "inventory_status": "TARGETED_CONTENT_EXTRACTED_VERSION_DRIFT_OPEN",
+      "evidence_files": ["README.md"],
+      "required_next": "Compare fork provenance and release/v3.8.50 against upstream current release before integration."
+    },
+    {
+      "repository": "aminhardany-web/Evidence-Source-Matrix-",
+      "ref": "main",
+      "inventory_status": "EMPTY_NO_SOURCE_CONTENT"
+    },
+    {
+      "repository": "aminhardany-web/Evidence-Source-Matrix-v1.1",
+      "ref": "main",
+      "inventory_status": "EMPTY_NO_SOURCE_CONTENT"
+    },
+    {
+      "repository": "aminhardany-web/desktop-tutorial",
+      "ref": "main",
+      "inventory_status": "PLACEHOLDER_CONTENT_TARGETED_REVIEW",
+      "required_next": "No project evidence found in README; retain until final redundancy decision is explicitly approved."
+    }
+  ],
+  "integration_status": "EVIDENCE_MAPPED_PARTIAL",
+  "end_to_end_pass": false,
+  "reason": "Tree-level inventory and targeted direct-source extraction are verified. Full byte-level extraction of every file from every private repository is not yet proven inside GitHub Actions because the default workflow token is repository-scoped."
+}
