@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0",
+  "mission": "REAL_REPOSITORY_EXTRACTION_AND_PKEA_EVIDENCE_LINK",
+  "source_of_truth": "aminhardany-web/-Prompt-Operating-System",
+  "extraction_policy": "IMMUTABLE_READ_ONLY_SOURCE_EXTRACTION",
+  "no_source_overwrite": true,
+  "no_repository_delete": true,
+  "records": [
+    {
+      "repository": "aminhardany-web/-Prompt-Operating-System",
+      "source_ref": "main",
+      "source_path": "07_System_Integration/UNIFIED_REPOSITORY_INTEGRATION_MANIFEST.json",
+      "source_sha256": "73324367232c8896f09a057a207ba640942cadef",
+      "extraction_status": "EXTRACTED",
+      "evidence_status": "REGISTERED",
+      "authority_status": "PRIMARY_RUNTIME",
+      "dependency_refs": ["PKEA_RUNTIME"],
+      "conflict_refs": [],
+      "note": "Existing integration manifest extracted from the primary runtime repository."
+    },
+    {
+      "repository": "aminhardany-web/EPKOS-Final-",
+      "source_ref": "main",
+      "source_path": "README.md",
+      "source_sha256": "abe25c5f072645739113a443d87ae842299303b0",
+      "extraction_status": "EXTRACTED_README_ONLY",
+      "evidence_status": "REGISTERED_PARTIAL",
+      "authority_status": "GOVERNANCE_KNOWLEDGE_BOUNDARY",
+      "dependency_refs": ["PKEA", "EPKOS_CANONICALIZATION"],
+      "conflict_refs": [],
+      "note": "README establishes EPKOS as durable versioned knowledge/governance boundary and states that PKEA produces evidence candidates for human validation before EPKOS canonicalization. Full repository extraction remains open."
+    },
+    {
+      "repository": "aminhardany-web/AI-Prompt-OS",
+      "source_ref": "main",
+      "source_path": "README.md",
+      "source_sha256": "29987eaa1e79289d79b9a9319d337c09d1dd053e",
+      "extraction_status": "EXTRACTED_README_ONLY",
+      "evidence_status": "REGISTERED_PARTIAL",
+      "authority_status": "PROMPT_ASSET_BOUNDARY",
+      "dependency_refs": ["-Prompt-Operating-System"],
+      "conflict_refs": [],
+      "note": "README explicitly identifies this repository as a compatibility boundary and states that the operational Prompt OS lives in the primary repository. Full asset extraction remains open."
+    },
+    {
+      "repository": "aminhardany-web/Evidence-Source-Matrix-",
+      "source_ref": "main",
+      "source_path": "",
+      "source_sha256": null,
+      "extraction_status": "EMPTY_REPOSITORY",
+      "evidence_status": "REGISTERED_EMPTY",
+      "authority_status": "UNPROVEN",
+      "dependency_refs": [],
+      "conflict_refs": [],
+      "note": "GitHub reports this repository is empty. No source material was available to extract."
+    },
+    {
+      "repository": "aminhardany-web/Evidence-Source-Matrix-v1.1",
+      "source_ref": "main",
+      "source_path": "",
+      "source_sha256": null,
+      "extraction_status": "EMPTY_REPOSITORY",
+      "evidence_status": "REGISTERED_EMPTY",
+      "authority_status": "UNPROVEN",
+      "dependency_refs": [],
+      "conflict_refs": [],
+      "note": "GitHub reports this repository is empty. No source material was available to extract."
+    },
+    {
+      "repository": "aminhardany-web/001-HUM-INT-",
+      "source_ref": "main",
+      "source_path": "README.md",
+      "source_sha256": "5ab3a24610a148ac746ec5ce10a8777e57e47026",
+      "extraction_status": "EXTRACTED_README_ONLY",
+      "evidence_status": "REGISTERED_PARTIAL",
+      "authority_status": "SEPARATE_PROJECT",
+      "dependency_refs": [],
+      "conflict_refs": [],
+      "note": "README describes a Human-AI collaboration framework repository for MCOS v1.0 with governance, evidence-driven workflows, documentation, experiments and reusable knowledge assets. Full extraction remains open."
+    },
+    {
+      "repository": "aminhardany-web/chat-gpt-amin",
+      "source_ref": "main",
+      "source_path": "README.md",
+      "source_sha256": "d1e0e79149d0ea73bed20bd75cd4e78bea501969",
+      "extraction_status": "EXTRACTED_README_ONLY",
+      "evidence_status": "REGISTERED_PARTIAL",
+      "authority_status": "KNOWLEDGE_MODULE",
+      "dependency_refs": ["PROMPT-OS", "EPKOS"],
+      "conflict_refs": [],
+      "note": "README defines a Port and Maritime knowledge module, source/evidence classification boundaries, reference registry and an explicit requirement for an end-to-end test before claiming full runtime integration. Full module extraction remains open."
+    },
+    {
+      "repository": "aminhardany-web/data",
+      "source_ref": "main",
+      "source_path": "README.md",
+      "source_sha256": "9288cb5f9a1219d212952c135f325d0688db4b49",
+      "extraction_status": "EXTRACTED_README_ONLY",
+      "evidence_status": "REGISTERED_PARTIAL",
+      "authority_status": "PRESERVE_AND_EXTRACT",
+      "dependency_refs": ["PKEA_INGESTION"],
+      "conflict_refs": [],
+      "note": "README identifies the repository as a data container. Repository deletion is prohibited by the current integration mission. Full data-file inventory and content extraction remain open."
+    },
+    {
+      "repository": "aminhardany-web/desktop-tutorial",
+      "source_ref": "main",
+      "source_path": "README.md",
+      "source_sha256": "79c0873ce951b1cb9b433535fe190c74467c844d",
+      "extraction_status": "EXTRACTED_README_ONLY",
+      "evidence_status": "REGISTERED_PARTIAL",
+      "authority_status": "TUTORIAL_SOURCE",
+      "dependency_refs": [],
+      "conflict_refs": [],
+      "note": "README is the default GitHub Desktop tutorial placeholder. No project-specific evidence was found in the extracted README. Further inventory is required before any redundancy decision."
+    },
+    {
+      "repository": "aminhardany-web/OmniRoute",
+      "source_ref": "release/v3.8.50",
+      "source_path": "README.md",
+      "source_sha256": null,
+      "extraction_status": "EXTRACTED_README_PARTIAL",
+      "evidence_status": "REGISTERED_PARTIAL",
+      "authority_status": "FORKED_EXTERNAL_PROJECT",
+      "dependency_refs": [],
+      "conflict_refs": ["VERSION_DRIFT_REVIEW"],
+      "note": "Fork README was extracted from release/v3.8.50. It identifies OmniRoute as an AI gateway and documents a v3.8.50 state. This fork must remain isolated until provenance/version alignment with upstream is validated."
+    }
+  ],
+  "global_status": "PARTIAL_EXTRACTION",
+  "global_decision": "NOT_FULLY_INTEGRATED",
+  "next_gate": "FULL_SOURCE_INVENTORY_AND_EVIDENCE_EXTRACTION"
+}
