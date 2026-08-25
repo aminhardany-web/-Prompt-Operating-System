@@ -1,42 +1,47 @@
 # Unified AI Operating System — Repository Registry
 
-This registry is the single integration map for the GitHub repositories currently owned by `aminhardany-web`.
+This registry is the controlled integration map for the GitHub repositories currently associated with `aminhardany-web`.
 
-## Runtime boundary
+## Authority and runtime boundary
 
-- `aminhardany-web/-Prompt-Operating-System` — primary AI Operating System workspace and PKEA runtime; integrated package is now registered under `08_Unified_AI_OS_Final_Package`.
+- `aminhardany-web/-Prompt-Operating-System` — primary AI Operating System workspace and PKEA runtime; integration hub.
 - `aminhardany-web/EPKOS-Final-` — durable knowledge, governance, canonicalization and audit boundary.
-- `aminhardany-web/AI-Prompt-OS` — prompt-operating-system repository reserved for prompt assets; currently contains no operational README content.
-- `aminhardany-web/Evidence-Source-Matrix-` — evidence/source workstream; integration target, not a runtime dependency.
-- `aminhardany-web/Evidence-Source-Matrix-v1.1` — evidence/source workstream; integration target, not a runtime dependency.
+- `aminhardany-web/AI-Prompt-OS` — prompt asset boundary; no independent runtime authority.
+- `aminhardany-web/Evidence-Source-Matrix-` — evidence/source workstream; extraction required before integration decision.
+- `aminhardany-web/Evidence-Source-Matrix-v1.1` — evidence/source workstream v1.1; extraction required before integration decision.
+- `aminhardany-web/001-HUM-INT-` — separate private project; isolated until an adapter produces evidence.
+- `aminhardany-web/chat-gpt-amin` — knowledge module; isolated until an adapter produces evidence.
+- `aminhardany-web/data` — preserved data source; extraction is required and deletion is prohibited by the current integration mission.
+- `aminhardany-web/desktop-tutorial` — tutorial source; isolated and non-runtime unless an adapter is justified.
+- `aminhardany-web/OmniRoute` — forked external project; version drift and provenance must be resolved before any integration.
 
-## Other repositories
+## Integration rule
 
-- `aminhardany-web/001-HUM-INT-` — separate private project; not silently merged into the runtime.
-- `aminhardany-web/chat-gpt-amin` — separate private project; not silently merged into the runtime.
-- `aminhardany-web/data` — separate private data repository; consumed only through an explicit future adapter.
-- `aminhardany-web/desktop-tutorial` — separate private tutorial repository; no runtime dependency.
+Repositories are not physically merged merely because they are related. Source boundaries remain intact. Interoperability is provided through controlled extraction, registration, evidence mapping, dependency mapping, PKEA execution, human review and EPKOS governance.
 
-## Operating rule
+Pipeline:
 
-Repositories are not physically merged merely because they are related. Their authoritative boundaries are preserved, while PKEA provides the project-evidence runtime and controlled interoperability.
+`DISCOVER → EXTRACT → REGISTER → TRACE → VALIDATE → PKEA RUNTIME → HUMAN REVIEW → EPKOS → AUDIT → RECOVERY`
 
-The unified package now provides the cross-repository integration index without overwriting source material:
-
-`Chat/Archive → Source-Exact Knowledge/Prompt Records → Master Index → Lineage/Dependency/Change Control → PKEA Evidence Runtime → Human Review → EPKOS Canonicalization`
-
-No repository is treated as authoritative merely because it is linked from this registry. Authority remains defined by each repository's own validated baseline and evidence controls.
+The machine-readable contract is `07_System_Integration/UNIFIED_REPOSITORY_INTEGRATION_MANIFEST.json` and the adapter contract is `07_System_Integration/INTEGRATION_ADAPTER_CONTRACT.md`.
 
 ## Current integration status
 
-| Repository | Role | Runtime status |
-|---|---|---|
-| `-Prompt-Operating-System` | Primary AI OS + PKEA | Integrated package registered; runtime evaluation pending |
-| `EPKOS-Final-` | Governance/system of record | Operational candidate |
-| `AI-Prompt-OS` | Prompt OS workspace | Prompt asset boundary; no independent runtime dependency |
-| `Evidence-Source-Matrix-` | Evidence matrix | Separate workstream |
-| `Evidence-Source-Matrix-v1.1` | Evidence matrix v1.1 | Separate workstream |
-| `001-HUM-INT-` | Separate project | Isolated |
-| `chat-gpt-amin` | Separate project | Isolated |
-| `data` | Data repository | Isolated |
-| `desktop-tutorial` | Tutorial repository | Isolated |
+| Repository | Role | Status | Next controlled action |
+|---|---|---|---|
+| `-Prompt-Operating-System` | Primary AI OS + PKEA | INTEGRATED | Continue runtime validation |
+| `EPKOS-Final-` | Governance/knowledge | CONTROLLED_BOUNDARY | Extract/register evidence |
+| `AI-Prompt-OS` | Prompt assets | CONTROLLED_BOUNDARY | Extract/register prompt assets |
+| `Evidence-Source-Matrix-` | Evidence matrix | PENDING_EXTRACTION | Preserve; extract before decision |
+| `Evidence-Source-Matrix-v1.1` | Evidence matrix v1.1 | PENDING_EXTRACTION | Preserve; extract before decision |
+| `001-HUM-INT-` | Separate project | ISOLATED | Adapter only if evidence justifies |
+| `chat-gpt-amin` | Knowledge module | ISOLATED | Extract/register via adapter |
+| `data` | Data source | PRESERVE_AND_EXTRACT | Extract/register via adapter |
+| `desktop-tutorial` | Tutorial source | ISOLATED | No runtime dependency unless justified |
+| `OmniRoute` | Forked external project | VERSION_DRIFT_REVIEW | Resolve provenance/version before integration |
+
+## Closure rule
+
+No repository is deleted as part of integration. A repository can only be classified as redundant after its valuable content has been extracted, registered, traced and independently validated.
+
+A portfolio-wide integration PASS requires every non-primary repository to be either `INTEGRATED` with evidence or `EXPLICITLY_ISOLATED` with a documented reason.
