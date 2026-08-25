@@ -45,19 +45,29 @@ jobs:
           manifest = Path('07_System_Integration/UNIFIED_REPOSITORY_INTEGRATION_MANIFEST.json')
           registry = Path('07_System_Integration/REPOSITORY_REGISTRY.md')
           contract = Path('07_System_Integration/INTEGRATION_ADAPTER_CONTRACT.md')
+          evidence = Path('07_System_Integration/REPOSITORY_EXTRACTION_EVIDENCE.json')
           assert manifest.is_file() and manifest.stat().st_size > 0
           assert registry.is_file() and registry.stat().st_size > 0
           assert contract.is_file() and contract.stat().st_size > 0
+          assert evidence.is_file() and evidence.stat().st_size > 0
           data = json.loads(manifest.read_text(encoding='utf-8'))
+          extraction = json.loads(evidence.read_text(encoding='utf-8'))
           assert data['integration_mode'] == 'CONTROLLED_INTEROPERABILITY'
           assert data['source_of_truth'] == 'aminhardany-web/-Prompt-Operating-System'
           assert data['no_physical_merge'] is True
           repos = data['repositories']
+          records = extraction['records']
+          record_repos = {r['repository'] for r in records}
+          manifest_repos = {r['repository'] for r in repos}
+          assert manifest_repos == record_repos, (manifest_repos, record_repos)
           assert any(r['repository'] == 'aminhardany-web/data' and r['status'] == 'PRESERVE_AND_EXTRACT' for r in repos)
           assert any(r['repository'] == 'aminhardany-web/-Prompt-Operating-System' and r['status'] == 'INTEGRATED' for r in repos)
-          for r in repos:
-              assert r['repository'] and r['role'] and r['status'] and r['adapter']
-          print(f'Integration manifest PASS: {len(repos)} repositories under controlled interoperability')
+          for r in records:
+              assert r['repository'] and r['source_ref'] and r['extraction_status'] and r['evidence_status'] and r['authority_status']
+              if r['extraction_status'] not in ('EMPTY_REPOSITORY',):
+                  assert r['source_path']
+          print(f'Integration extraction registry PASS: {len(records)} repositories registered')
+          print(f"Global extraction status: {extraction['global_status']}")
           PY
       - name: Install PKEA
         working-directory: 06_Product_Project_Knowledge_Evidence_Agent
@@ -98,15 +108,7 @@ jobs:
           assert analysis['controls']['analysis_source'] == 'INGESTED_SNAPSHOT'
           assert analysis['controls']['human_gate_required'] is True
           assert summary['status'] == 'COMPLETED'
-          evidence = {
-              'gate': 'PRODUCTION_CLI_SAMPLE',
-              'status': 'PASS',
-              'documents': documents,
-              'claims': claims,
-              'run_status': summary['status'],
-              'analysis_source': analysis['controls']['analysis_source'],
-              'human_gate_required': analysis['controls']['human_gate_required'],
-          }
+          evidence = {'gate':'PRODUCTION_CLI_SAMPLE','status':'PASS','documents':documents,'claims':claims,'run_status':summary['status'],'analysis_source':analysis['controls']['analysis_source'],'human_gate_required':analysis['controls']['human_gate_required']}
           (root / 'verification_evidence.json').write_text(json.dumps(evidence, indent=2) + '\n', encoding='utf-8')
           print(json.dumps(evidence, indent=2))
           PY
@@ -135,16 +137,7 @@ jobs:
           assert analysis['controls']['human_gate_required'] is True
           assert analysis['controls']['canonicalization'] == 'PROHIBITED_IN_MVP'
           assert summary['status'] == 'COMPLETED'
-          evidence = {
-              'gate': 'COMPLETE_REPOSITORY_LIBRARY_CORPUS',
-              'status': 'PASS',
-              'documents': documents,
-              'claims': claims,
-              'run_status': summary['status'],
-              'analysis_source': analysis['controls']['analysis_source'],
-              'human_gate_required': analysis['controls']['human_gate_required'],
-              'canonicalization': analysis['controls']['canonicalization'],
-          }
+          evidence = {'gate':'COMPLETE_REPOSITORY_LIBRARY_CORPUS','status':'PASS','documents':documents,'claims':claims,'run_status':summary['status'],'analysis_source':analysis['controls']['analysis_source'],'human_gate_required':analysis['controls']['human_gate_required'],'canonicalization':analysis['controls']['canonicalization']}
           (root / 'verification_evidence.json').write_text(json.dumps(evidence, indent=2) + '\n', encoding='utf-8')
           print(json.dumps(evidence, indent=2))
           PY
