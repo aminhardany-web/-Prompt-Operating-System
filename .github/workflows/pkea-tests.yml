@@ -5,11 +5,13 @@ on:
     branches: [main]
     paths:
       - '06_Product_Project_Knowledge_Evidence_Agent/**'
+      - '07_System_Integration/**'
       - 'sample_project/**'
       - '.github/workflows/pkea-tests.yml'
   pull_request:
     paths:
       - '06_Product_Project_Knowledge_Evidence_Agent/**'
+      - '07_System_Integration/**'
       - 'sample_project/**'
       - '.github/workflows/pkea-tests.yml'
   workflow_dispatch:
@@ -34,6 +36,29 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Validate unified repository integration contract
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest = Path('07_System_Integration/UNIFIED_REPOSITORY_INTEGRATION_MANIFEST.json')
+          registry = Path('07_System_Integration/REPOSITORY_REGISTRY.md')
+          contract = Path('07_System_Integration/INTEGRATION_ADAPTER_CONTRACT.md')
+          assert manifest.is_file() and manifest.stat().st_size > 0
+          assert registry.is_file() and registry.stat().st_size > 0
+          assert contract.is_file() and contract.stat().st_size > 0
+          data = json.loads(manifest.read_text(encoding='utf-8'))
+          assert data['integration_mode'] == 'CONTROLLED_INTEROPERABILITY'
+          assert data['source_of_truth'] == 'aminhardany-web/-Prompt-Operating-System'
+          assert data['no_physical_merge'] is True
+          repos = data['repositories']
+          assert any(r['repository'] == 'aminhardany-web/data' and r['status'] == 'PRESERVE_AND_EXTRACT' for r in repos)
+          assert any(r['repository'] == 'aminhardany-web/-Prompt-Operating-System' and r['status'] == 'INTEGRATED' for r in repos)
+          for r in repos:
+              assert r['repository'] and r['role'] and r['status'] and r['adapter']
+          print(f'Integration manifest PASS: {len(repos)} repositories under controlled interoperability')
+          PY
       - name: Install PKEA
         working-directory: 06_Product_Project_Knowledge_Evidence_Agent
         run: |
