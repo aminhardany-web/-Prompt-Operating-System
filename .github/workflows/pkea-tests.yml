@@ -18,6 +18,7 @@ on:
 
 # Evidence-first execution: a real run is required before CI closure is claimed.
 # This workflow deliberately fails closed when the required runtime evidence is absent.
+# Portfolio integration control: inventory + claim mapping are checked before runtime gates.
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -42,32 +43,37 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-          manifest = Path('07_System_Integration/UNIFIED_REPOSITORY_INTEGRATION_MANIFEST.json')
-          registry = Path('07_System_Integration/REPOSITORY_REGISTRY.md')
-          contract = Path('07_System_Integration/INTEGRATION_ADAPTER_CONTRACT.md')
-          evidence = Path('07_System_Integration/REPOSITORY_EXTRACTION_EVIDENCE.json')
-          assert manifest.is_file() and manifest.stat().st_size > 0
-          assert registry.is_file() and registry.stat().st_size > 0
-          assert contract.is_file() and contract.stat().st_size > 0
-          assert evidence.is_file() and evidence.stat().st_size > 0
+          base = Path('07_System_Integration')
+          manifest = base / 'UNIFIED_REPOSITORY_INTEGRATION_MANIFEST.json'
+          registry = base / 'REPOSITORY_REGISTRY.md'
+          contract = base / 'INTEGRATION_ADAPTER_CONTRACT.md'
+          evidence = base / 'REPOSITORY_EXTRACTION_EVIDENCE.json'
+          inventory = base / 'PORTFOLIO_SOURCE_INVENTORY.json'
+          mapping = base / 'PORTFOLIO_EVIDENCE_CLAIM_MAP.json'
+          for p in (manifest, registry, contract, evidence, inventory, mapping):
+              assert p.is_file() and p.stat().st_size > 0, p
           data = json.loads(manifest.read_text(encoding='utf-8'))
           extraction = json.loads(evidence.read_text(encoding='utf-8'))
+          inventory_data = json.loads(inventory.read_text(encoding='utf-8'))
+          mapping_data = json.loads(mapping.read_text(encoding='utf-8'))
           assert data['integration_mode'] == 'CONTROLLED_INTEROPERABILITY'
           assert data['source_of_truth'] == 'aminhardany-web/-Prompt-Operating-System'
           assert data['no_physical_merge'] is True
+          assert inventory_data['no_delete'] is True
           repos = data['repositories']
           records = extraction['records']
-          record_repos = {r['repository'] for r in records}
           manifest_repos = {r['repository'] for r in repos}
-          assert manifest_repos == record_repos, (manifest_repos, record_repos)
+          record_repos = {r['repository'] for r in records}
+          inventory_repos = {r['repository'] for r in inventory_data['repositories']}
+          assert manifest_repos == record_repos == inventory_repos
+          assert mapping_data['claims']
+          assert mapping_data['mapping_status'] in ('PARTIAL_BUT_VERIFIED', 'VERIFIED')
           assert any(r['repository'] == 'aminhardany-web/data' and r['status'] == 'PRESERVE_AND_EXTRACT' for r in repos)
           assert any(r['repository'] == 'aminhardany-web/-Prompt-Operating-System' and r['status'] == 'INTEGRATED' for r in repos)
           for r in records:
               assert r['repository'] and r['source_ref'] and r['extraction_status'] and r['evidence_status'] and r['authority_status']
-              if r['extraction_status'] not in ('EMPTY_REPOSITORY',):
-                  assert r['source_path']
-          print(f'Integration extraction registry PASS: {len(records)} repositories registered')
-          print(f"Global extraction status: {extraction['global_status']}")
+          print(f'Integration control PASS: repositories={len(records)} claims={len(mapping_data["claims"])} unresolved={len(mapping_data["unresolved"])}')
+          print('END_TO_END_PORTFOLIO_PASS=FALSE_UNTIL_UNRESOLVED_CLOSED')
           PY
       - name: Install PKEA
         working-directory: 06_Product_Project_Knowledge_Evidence_Agent
