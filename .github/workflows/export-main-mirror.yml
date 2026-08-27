@@ -1,0 +1,25 @@
+name: export-main-mirror
+on:
+  push:
+    branches: ["mirror/export-2026-08-27"]
+  workflow_dispatch:
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    env:
+      BASE_SHA: 6477619e64016bd99f0c668acaf0485b08fcc9ea
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Archive exact main snapshot
+        run: |
+          git archive --format=zip --output=prompt-os-main-6477619e.zip "$BASE_SHA"
+          sha256sum prompt-os-main-6477619e.zip > prompt-os-main-6477619e.zip.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prompt-os-main-6477619e-mirror
+          path: |
+            prompt-os-main-6477619e.zip
+            prompt-os-main-6477619e.zip.sha256
+          if-no-files-found: error
