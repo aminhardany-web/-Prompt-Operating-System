@@ -1,0 +1,1 @@
+Temporary trigger for exact-main mirror export. The archive workflow always exports immutable base SHA 6477619e64016bd99f0c668acaf0485b08fcc9ea, so this trigger file is not part of the mirrored snapshot.
