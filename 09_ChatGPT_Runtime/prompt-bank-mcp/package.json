@@ -1,9 +1,13 @@
 {
   "name": "prompt-bank-chatgpt-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "scripts": {"start": "tsx src/server.ts", "check": "tsc --noEmit"},
+  "scripts": {
+    "start": "tsx src/server.ts",
+    "check": "tsc --noEmit",
+    "health": "node --import tsx -e \"fetch('http://localhost:'+(process.env.PORT||3000)+'/healthz').then(async r=>{const x=await r.json(); console.log(JSON.stringify(x,null,2)); process.exit(x.ok?0:1)}).catch(e=>{console.error(e);process.exit(1)})\""
+  },
   "dependencies": {"@modelcontextprotocol/sdk": "^1.12.1", "cors": "^2.8.5", "express": "^5.1.0", "zod": "^3.24.4"},
   "devDependencies": {"@types/cors": "^2.8.18", "@types/express": "^5.0.3", "tsx": "^4.19.2", "typescript": "^5.9.2"}
 }
