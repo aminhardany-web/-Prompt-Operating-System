@@ -1,0 +1,24 @@
+name: Library Mirror Export
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create exact repository archive
+        run: |
+          git archive --format=zip --output=prompt-os-main-mirror.zip HEAD
+          sha256sum prompt-os-main-mirror.zip > prompt-os-main-mirror.sha256
+          find . -type f -not -path './.git/*' | sort > prompt-os-main-mirror.files.txt
+      - name: Upload exact mirror
+        uses: actions/upload-artifact@v4
+        with:
+          name: prompt-os-main-mirror
+          path: |
+            prompt-os-main-mirror.zip
+            prompt-os-main-mirror.sha256
+            prompt-os-main-mirror.files.txt
