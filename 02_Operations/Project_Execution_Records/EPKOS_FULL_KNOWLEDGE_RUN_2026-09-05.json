@@ -1,0 +1,47 @@
+{
+  "mission_id": "EPKOS-FULL-KNOWLEDGE-EXTRACTION-VERIFIED-RECONCILIATION",
+  "run_id": "EPKOS-FULL-KNOWLEDGE-2026-09-05-CONTINUATION-02",
+  "execution_timestamp_utc": "2026-09-05T19:22:30Z",
+  "capability_gate": {
+    "READ": "AVAILABLE",
+    "WRITE": "AVAILABLE",
+    "MOVE": "AVAILABLE",
+    "RENAME": "AVAILABLE",
+    "DELETE": "AVAILABLE",
+    "UPLOAD": "PARTIALLY_AVAILABLE",
+    "EXECUTE": "AVAILABLE",
+    "SEARCH": "AVAILABLE",
+    "ARCHIVE_READ": "AVAILABLE",
+    "PDF_READ": "AVAILABLE",
+    "DOCX_READ": "AVAILABLE",
+    "CHAT_ACCESS": "PARTIALLY_AVAILABLE",
+    "PROJECT_ACCESS": "UNAVAILABLE",
+    "LIBRARY_ACCESS": "AVAILABLE",
+    "CONNECTOR_ACCESS": "PARTIALLY_AVAILABLE"
+  },
+  "observed_state": {
+    "library": "major project subtrees enumerated; root recursive listing reached 505 total items but transport output is truncated",
+    "prompt_bank_source_canonical_records": 554,
+    "prompt_runtime_registry_records": 554,
+    "prompt_static_preflight_records": 554,
+    "prompt_static_preflight_pass": 150,
+    "prompt_static_preflight_review": 404,
+    "github_governance_run_52": "SUCCESS",
+    "known_exact_duplicate_cleanup": "2 DOCX deletes previously verified; no further safe delete authorized from the evidence observed in this run"
+  },
+  "actual_execution": {
+    "python_runner_compile": "SUCCEEDED",
+    "prompt_static_preflight": "SUCCEEDED",
+    "preflight_output_sha256": "f369b12f57e7d7cff05c36620c5bba645c90c75bf9d270f18490040e89ea0d0c",
+    "github_source_read": "SUCCEEDED",
+    "github_governance_ci_check": "SUCCEEDED"
+  },
+  "blockers": [
+    "Direct ChatGPT conversation enumeration is unavailable in the current runtime",
+    "Direct ChatGPT Project enumeration is unavailable in the current runtime",
+    "Library upload mutation was throttled during this run",
+    "End-to-end runtime prompt execution requires a real approved model adapter and fixtures; current runner fails closed"
+  ],
+  "completion_gate": "NOT_PASSED",
+  "status": "PARTIALLY_COMPLETED"
+}
