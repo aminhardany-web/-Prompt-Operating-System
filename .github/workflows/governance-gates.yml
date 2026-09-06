@@ -41,11 +41,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if grep -RniE 'Runtime Test *= *[1-9][0-9]*.*Production Release *= *AUTHORIZED|Production Release *= *AUTHORIZED.*Runtime Test *= *[1-9][0-9]*' 01_Prompt_Library 02_Operations 04_Projects 2>/dev/null; then
+          # Match an affirmative authorization token only. Do not match the policy phrase NOT AUTHORIZED.
+          if grep -RniE 'Runtime Test *= *[1-9][0-9]*.*Production Release *= *AUTHORIZED([^A-Z]|$)|Production Release *= *AUTHORIZED([^A-Z]|$).*Runtime Test *= *[1-9][0-9]*' 01_Prompt_Library 02_Operations 04_Projects 2>/dev/null; then
             echo 'Production authorization must not be asserted from runtime-test counts alone.'
             exit 1
           fi
-          if grep -RniE 'Runtime Test *= *0.*Production Release *= *AUTHORIZED|Production Release *= *AUTHORIZED.*Runtime Test *= *0' 01_Prompt_Library 02_Operations 04_Projects 2>/dev/null; then
+          if grep -RniE 'Runtime Test *= *0.*Production Release *= *[^[:space:]]*AUTHORIZED([^A-Z]|$)|Production Release *= *AUTHORIZED([^A-Z]|$).*Runtime Test *= *0' 01_Prompt_Library 02_Operations 04_Projects 2>/dev/null; then
             echo 'Production authorization conflicts with zero runtime testing.'
             exit 1
           fi
