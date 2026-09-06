@@ -1,0 +1,97 @@
+name: PASS-05B Runtime Transport Proof
+
+on:
+  pull_request:
+    paths:
+      - '09_ChatGPT_Runtime/prompt-bank-mcp/**'
+      - '.github/workflows/pass05b-runtime-transport.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  transport-proof:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 09_ChatGPT_Runtime/prompt-bank-mcp
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: 09_ChatGPT_Runtime/prompt-bank-mcp/package.json
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: TypeScript check
+        run: npm run check
+
+      - name: Prepare runtime corpus
+        run: |
+          test -f PROMPT_BANK_CANONICAL_SOURCE_v3.4.jsonl
+
+      - name: Start MCP runtime
+        run: |
+          nohup npm run start > /tmp/prompt-bank-mcp.log 2>&1 &
+          echo $! > /tmp/prompt-bank-mcp.pid
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/healthz > /tmp/healthz.json; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/prompt-bank-mcp.log
+          exit 1
+
+      - name: Assert healthz
+        run: |
+          cat /tmp/healthz.json
+          node -e 'const fs=require("fs");const x=JSON.parse(fs.readFileSync("/tmp/healthz.json","utf8"));if(!x.ok||x.expected_count!==554||x.actual_count!==554)process.exit(1)'
+
+      - name: MCP initialize
+        run: |
+          curl -fsS \
+            -H 'Content-Type: application/json' \
+            -H 'Accept: application/json, text/event-stream' \
+            --data '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"pass05b-ci","version":"1.0.0"}}}' \
+            http://127.0.0.1:3000/mcp > /tmp/mcp-initialize.txt
+          cat /tmp/mcp-initialize.txt
+          grep -q '"result"' /tmp/mcp-initialize.txt
+
+      - name: MCP tools/list
+        run: |
+          curl -fsS \
+            -H 'Content-Type: application/json' \
+            -H 'Accept: application/json, text/event-stream' \
+            --data '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}' \
+            http://127.0.0.1:3000/mcp > /tmp/mcp-tools.txt
+          cat /tmp/mcp-tools.txt
+          for tool in search fetch compare ingest_prompt health; do grep -q "$tool" /tmp/mcp-tools.txt || exit 1; done
+
+      - name: MCP tools/call health
+        run: |
+          curl -fsS \
+            -H 'Content-Type: application/json' \
+            -H 'Accept: application/json, text/event-stream' \
+            --data '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"health","arguments":{}}}' \
+            http://127.0.0.1:3000/mcp > /tmp/mcp-health.txt
+          cat /tmp/mcp-health.txt
+          grep -q '554' /tmp/mcp-health.txt
+
+      - name: Upload generated lockfile and logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pass05b-runtime-proof
+          path: |
+            09_ChatGPT_Runtime/prompt-bank-mcp/package-lock.json
+            /tmp/prompt-bank-mcp.log
+            /tmp/healthz.json
+            /tmp/mcp-initialize.txt
+            /tmp/mcp-tools.txt
+            /tmp/mcp-health.txt
