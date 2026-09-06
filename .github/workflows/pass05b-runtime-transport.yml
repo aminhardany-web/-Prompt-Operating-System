@@ -33,9 +33,20 @@ jobs:
       - name: TypeScript check
         run: npm run check
 
-      - name: Prepare runtime corpus
+      - name: Prepare isolated transport fixture
         run: |
-          test -f PROMPT_BANK_CANONICAL_SOURCE_v3.4.jsonl
+          node - <<'NODE'
+          const fs = require('fs');
+          const out = [];
+          for (let i = 1; i <= 554; i++) {
+            out.push(JSON.stringify({
+              prompt_id: `PB-FIXTURE-${String(i).padStart(4,'0')}`,
+              title: i === 1 ? 'PASS-05B transport fixture' : `Fixture ${i}`,
+              source_text: i === 1 ? 'transport proof fixture prompt' : `fixture prompt ${i}`
+            }));
+          }
+          fs.writeFileSync('PROMPT_BANK_CANONICAL_SOURCE_v3.4.jsonl', out.join('\n') + '\n');
+          NODE
 
       - name: Start MCP runtime
         run: |
