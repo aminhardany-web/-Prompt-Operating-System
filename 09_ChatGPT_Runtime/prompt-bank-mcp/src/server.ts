@@ -19,7 +19,19 @@ const load = (): RecordT[] => {
   return fs.readFileSync(sourcePath,"utf8").split(/\r?\n/).filter(Boolean).map((x,i)=>{try{return JSON.parse(x) as RecordT}catch(e){throw new Error(`Invalid JSONL line ${i+1}: ${String(e)}`)}});
 };
 const stopWords = new Set(["برای","از","به","در","با","را","که","این","آن","یک","و","یا","the","for","and","with","find","prompt"]);
+const queryAliases: Record<string,string[]> = {
+  "ممیزی":["بررسی","ارزیابی"], "بازبینی":["بررسی"], "audit":["بررسی"],
+  "پیمان":["قرارداد"], "قراردادی":["قرارداد"], "contract":["قرارداد"],
+  "بهینه‌سازی":["بهینه"], "بهینه سازی":["بهینه"], "optimization":["بهینه"],
+  "بازنویسی":["اصلاح"], "rewrite":["اصلاح"], "optimize":["بهینه"],
+  "آزمون":["تست"], "test":["تست"], "evaluation":["ارزیابی"]
+};
 const tokens = (s:string) => norm(s).split(/\s+/).filter(x=>x.length>2 && !stopWords.has(x));
+const expandedTokens = (s:string) => {
+  const base=tokens(s); const extra:string[]=[];
+  for(const t of base) for(const a of (queryAliases[t]??[])) extra.push(a);
+  return [...new Set([...base,...extra])];
+};
 const intentAction = (q:string) => {
   const x=norm(q);
   if(/ممیزی|audit|بررسی|کنترل کیفیت|بازبینی/.test(x)) return "AUDIT_SOURCE";
@@ -31,16 +43,16 @@ const searchScore = (r: RecordT,q: string) => {
   const query=norm(q); if(!query)return 0;
   const title=norm(String(r.title??"")); const body=norm(String(r.source_text??""));
   const meta=norm([r.record_id,r.prompt_id,r.canonical_status,r.semantic_status,r.runtime_status].filter(Boolean).join(" "));
-  const ts=tokens(q); let s=0;
-  if(title===query) s+=160; else if(title.includes(query)) s+=100;
-  if(body.includes(query)) s+=45;
+  const ts=expandedTokens(q); const base=tokens(q); let s=0;
+  if(title===query) s+=220; else if(title.includes(query)) s+=140;
+  if(body.includes(query)) s+=10;
   for(const t of ts) {
-    if(title.includes(t)) s+=14;
-    else if(body.includes(t)) s+=4;
-    if(meta.includes(t)) s+=3;
+    if(title.includes(t)) s+=30;
+    else if(body.includes(t)) s+=2;
+    if(meta.includes(t)) s+=1;
   }
-  const coverage=ts.length ? ts.filter(t=>title.includes(t)||body.includes(t)).length/ts.length : 0;
-  s += Math.round(coverage*30);
+  const coverage=base.length ? base.filter(t=>title.includes(t)).length/base.length : 0;
+  s += Math.round(coverage*40);
   return s;
 };
 
@@ -48,12 +60,12 @@ function serverFactory(){
   const s=new McpServer({name:"prompt-bank-mcp",version:"0.1.0"});
   s.tool("search","Use when the user asks to find a prompt or reusable engineered instruction by goal, task, role, topic, or natural-language need. Do not require the word prompt or a Prompt ID.",
     {query:z.string().min(1),limit:z.number().int().min(1).max(25).default(8)},async({query,limit})=>{
-      const rs=load().map(r=>({r,score:searchScore(r,query)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).slice(0,limit).map(x=>({prompt_id:id(x.r),title:x.r.title??null,score:x.score,source_text:x.r.source_text??null,metadata:x.r}));
-      const out={corpus_version:corpusVersion,corpus_count:load().length,query,action:intentAction(query),results:rs}; return {content:[{type:"text",text:JSON.stringify(out,null,2)}],structuredContent:out};
+      const corpus=load(); const rs=corpus.map(r=>({r,score:searchScore(r,query)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).slice(0,limit).map(x=>({prompt_id:id(x.r),title:x.r.title??null,score:x.score,source_text:x.r.source_text??null,metadata:x.r}));
+      const out={corpus_version:corpusVersion,corpus_count:corpus.length,query,action:intentAction(query),results:rs}; return {content:[{type:"text",text:JSON.stringify(out,null,2)}],structuredContent:out};
     });
   s.tool("toolbox","Use when the user describes a work need and wants a reusable starting point. Return candidate source prompts plus the suggested operational action. Do not modify or promote the canonical corpus.",{query:z.string().min(1),limit:z.number().int().min(1).max(10).default(5)},async({query,limit})=>{
-    const rs=load().map(r=>({r,score:searchScore(r,query)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).slice(0,limit).map(x=>({prompt_id:id(x.r),title:x.r.title??null,score:x.score,match_reason:"lexical/field-aware match; semantic equivalence not proven"}));
-    const out={corpus_version:corpusVersion,corpus_count:load().length,query,suggested_action:intentAction(query),results:rs,scope:"Canonical-554 only; broader Library/Project assets require a separate authorized search."};
+    const corpus=load(); const rs=corpus.map(r=>({r,score:searchScore(r,query)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).slice(0,limit).map(x=>({prompt_id:id(x.r),title:x.r.title??null,score:x.score,match_reason:"lexical/field-aware match; semantic equivalence not proven"}));
+    const out={corpus_version:corpusVersion,corpus_count:corpus.length,query,suggested_action:intentAction(query),results:rs,scope:"Canonical-554 only; broader Library/Project assets require a separate authorized search."};
     return {content:[{type:"text",text:JSON.stringify(out,null,2)}],structuredContent:out};
   });
   s.tool("fetch","Use when the user asks for the full source text of a known Prompt Bank item. Return it verbatim and do not rewrite it.",{prompt_id:z.string().min(1)},async({prompt_id})=>{
