@@ -14,6 +14,9 @@ jobs:
   connectivity:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Verify runner
         run: |
           echo "GitHub Actions runner is operational."
