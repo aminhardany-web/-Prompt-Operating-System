@@ -11,11 +11,12 @@ User examples:
 
 Tools:
 
-- `search`: intent-first retrieval; the user does not need a Prompt ID or the word Prompt.
+- `search`: field-aware retrieval across title/source/record metadata; returns a suggested operational action (`USE_SOURCE`, `AUDIT_SOURCE`, `DERIVE_OPTIMIZED`, or `TEST_PROMPT`). It is a retrieval aid, not proof of semantic equivalence.
 - `fetch`: exact source retrieval with verbatim preservation.
 - `compare`: comparison for duplicate/variant/conflict analysis.
 - `ingest_prompt`: intake gate for newly supplied structured instructions.
 - `health`: corpus readiness check.
+- `toolbox`: recommend a reusable Prompt Bank item and the next operational action from a natural-language need, without changing the canonical corpus.
 
 The runtime expects a deployed copy of the current canonical JSONL corpus. The repository currently contains the control-plane code and governance, while the 554-record source corpus remains in the ChatGPT Library workflow. Configure `PROMPT_BANK_SOURCE_PATH` at deployment time.
 

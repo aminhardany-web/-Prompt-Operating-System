@@ -2,6 +2,8 @@ name: Runtime Connectivity Smoke
 
 on:
   push:
+    branches: [main, source-authority-sync-20260929]
+  pull_request:
     branches: [main]
   workflow_dispatch:
 
@@ -12,8 +14,17 @@ jobs:
   connectivity:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Verify runner
         run: |
           echo "GitHub Actions runner is operational."
           test -n "$GITHUB_SHA"
           test -n "$GITHUB_REPOSITORY"
+
+      - name: Typecheck Prompt Bank MCP
+        working-directory: 09_ChatGPT_Runtime/prompt-bank-mcp
+        run: |
+          npm install
+          npm run check
