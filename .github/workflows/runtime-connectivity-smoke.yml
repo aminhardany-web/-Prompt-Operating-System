@@ -2,7 +2,7 @@ name: Runtime Connectivity Smoke
 
 on:
   push:
-    branches: [main]
+    branches: [main, source-authority-sync-20260929]
   workflow_dispatch:
 
 permissions:
@@ -17,3 +17,9 @@ jobs:
           echo "GitHub Actions runner is operational."
           test -n "$GITHUB_SHA"
           test -n "$GITHUB_REPOSITORY"
+
+      - name: Typecheck Prompt Bank MCP
+        working-directory: 09_ChatGPT_Runtime/prompt-bank-mcp
+        run: |
+          npm install
+          npm run check
